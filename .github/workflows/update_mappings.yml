@@ -14,8 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install dependencies
+        run: |
+          pip install -U pip setuptools wheel
+          pip install -U tox
       - name: Update auto-generated mappings
-        run: python3 generate_mappings.py
+        run: tox -e update-mappings
       - name: Commit mappings
         run: |
           git config --global user.name 'Jad Chaar'
