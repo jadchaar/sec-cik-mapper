@@ -1,6 +1,4 @@
-# sec-cik-ticker-mappings
-
-
+# cik-mapper
 
 ## CIK, Ticker, and Company Name Mapping
 

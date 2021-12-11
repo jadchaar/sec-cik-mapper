@@ -1,5 +1,3 @@
-import json
-
 import pandas as pd
 import requests
 
@@ -9,8 +7,7 @@ COMPANY_TICKERS_SEC_URL = "https://www.sec.gov/files/company_tickers.json"
 
 class CIKMapper:
     def __init__(self):
-        self.mapping_metadata: pd.DataFrame = self._get_mapping_metadata()
-        print(self.mapping_metadata)
+        self.mapping_metadata = self._get_mapping_metadata()
 
     def _get_mapping_metadata(self) -> pd.DataFrame:
         resp = requests.get(COMPANY_TICKERS_SEC_URL)
@@ -49,40 +46,7 @@ class CIKMapper:
         company_name_col = self.mapping_metadata["Company Name"]
         return dict(zip(ticker_col, company_name_col))
 
-    def save_metadata_to_csv(self, path) -> None:
-        self.mapping_metadata.to_csv(path, index=False)
-
-    def save_metadata_to_markdown(self, path) -> None:
-        self.mapping_metadata.to_markdown(path, index=False)
-
-
-cikMapper = CIKMapper()
-auto_generated_mappings_base = "auto_generated_mappings"
-
-cik_to_ticker_mapping = cikMapper.get_cik_to_ticker_mapping()
-with open(
-    f"{auto_generated_mappings_base}/cik_to_ticker.json", "w", encoding="utf-8"
-) as f:
-    json.dump(cik_to_ticker_mapping, f, ensure_ascii=False, sort_keys=True, indent=4)
-
-ticker_to_cik_mapping = cikMapper.get_ticker_to_cik_mapping()
-with open(
-    f"{auto_generated_mappings_base}/ticker_to_cik.json", "w", encoding="utf-8"
-) as f:
-    json.dump(ticker_to_cik_mapping, f, ensure_ascii=False, sort_keys=True, indent=4)
-
-cik_to_title_mapping = cikMapper.get_cik_to_title_mapping()
-with open(
-    f"{auto_generated_mappings_base}/cik_to_title.json", "w", encoding="utf-8"
-) as f:
-    json.dump(cik_to_title_mapping, f, ensure_ascii=False, sort_keys=True, indent=4)
-
-ticker_to_title_mapping = cikMapper.get_ticker_to_title_mapping()
-with open(
-    f"{auto_generated_mappings_base}/ticker_to_title.json", "w", encoding="utf-8"
-) as f:
-    json.dump(ticker_to_title_mapping, f, ensure_ascii=False, sort_keys=True, indent=4)
-
-save_path = f"{auto_generated_mappings_base}/cik_ticker_company_name_table"
-cikMapper.save_metadata_to_csv(f"{save_path}.csv")
-cikMapper.save_metadata_to_markdown(f"{save_path}.md")
+    def save_metadata_to_csv(self, path_or_buf) -> None:
+        # TODO: let users specify which of the 3 columns to sort on
+        # E.g. sort rows on ticker: mapping_metadata.sort_values(["Ticker"])
+        self.mapping_metadata.to_csv(path_or_buf, index=False)
