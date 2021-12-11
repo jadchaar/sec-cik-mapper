@@ -14,13 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        name: Update auto-generated mappings
+      - name: Update auto-generated mappings
         run: python3 generate_mappings.py
       - name: Commit mappings
         run: |
           git config --global user.name 'Jad Chaar'
           git config --global user.email 'jadchaar@users.noreply.github.com'
-          git commit -am "Update auto-generated mappings"
+          git add auto_generated_mappings
+          git commit -m "Update auto-generated mappings"
           git push
 
   # test:
