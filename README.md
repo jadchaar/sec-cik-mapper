@@ -1,0 +1,1 @@
+# sec-cik-ticker-mappings
