@@ -1,6 +1,6 @@
 from collections import defaultdict
 from pathlib import Path
-from typing import Union
+from typing import Dict, Sequence, Union
 
 import pandas as pd
 import requests
@@ -30,7 +30,7 @@ class CIKMapper:
 
         return pd.DataFrame(transformed_data)
 
-    def _form_cik_mapping(self, cik_col, value_col) -> dict[str, list[str]]:
+    def _form_cik_mapping(self, cik_col, value_col) -> Dict[str, Sequence[str]]:
         # Numerous CIKs map to multiple tickers (e.g. Banco Santander),
         # so we must keep a list of tickers for each unique CIK.
         cik_mapping = defaultdict(list)
@@ -38,22 +38,22 @@ class CIKMapper:
             cik_mapping[cik].append(value)
         return cik_mapping
 
-    def get_cik_to_ticker_mapping(self) -> dict[str, list[str]]:
+    def get_cik_to_ticker_mapping(self) -> Dict[str, Sequence[str]]:
         cik_col = self.mapping_metadata["CIK"]
         ticker_col = self.mapping_metadata["Ticker"]
         return self._form_cik_mapping(cik_col, ticker_col)
 
-    def get_ticker_to_cik_mapping(self) -> dict[str, str]:
+    def get_ticker_to_cik_mapping(self) -> Dict[str, str]:
         cik_col = self.mapping_metadata["CIK"]
         ticker_col = self.mapping_metadata["Ticker"]
         return dict(zip(ticker_col, cik_col))
 
-    def get_cik_to_title_mapping(self) -> dict[str, list[str]]:
+    def get_cik_to_title_mapping(self) -> Dict[str, Sequence[str]]:
         cik_col = self.mapping_metadata["CIK"]
         company_name_col = self.mapping_metadata["Company Name"]
         return self._form_cik_mapping(cik_col, company_name_col)
 
-    def get_ticker_to_title_mapping(self) -> dict[str, str]:
+    def get_ticker_to_title_mapping(self) -> Dict[str, str]:
         ticker_col = self.mapping_metadata["Ticker"]
         company_name_col = self.mapping_metadata["Company Name"]
         return dict(zip(ticker_col, company_name_col))
