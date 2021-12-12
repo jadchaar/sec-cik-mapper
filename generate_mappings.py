@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from cik_mapper import CIKMapper
+from sec_cik_mapper import CIKMapper
 
 
 def write_json_to_disk(path: Path, obj: Any):

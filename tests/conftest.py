@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from cik_mapper import CIKMapper
+from sec_cik_mapper import CIKMapper
 
 
 @pytest.fixture(scope="session")

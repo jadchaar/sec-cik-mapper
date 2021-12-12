@@ -3,9 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from cik_mapper import CIKMapper
-
-# TODO: validate automatically generated files
+from sec_cik_mapper import CIKMapper
 
 
 def test_mapper_initialization(mapper: CIKMapper):
@@ -121,6 +119,3 @@ def validate_json(mapper: CIKMapper, auto_generated_mappings_path: Path):
     with json_path.open() as f:
         json_obj = json.load(f)
     assert len(json_obj) == len(mapper.mapping_metadata)
-
-
-# TODO: run tests before uploading in CI cron job

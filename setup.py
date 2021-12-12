@@ -3,12 +3,12 @@ from pathlib import Path
 from setuptools import setup
 
 readme = Path("README.md").read_text(encoding="utf-8")
-version = Path("cik_mapper/_version.py").read_text(encoding="utf-8")
+version = Path("sec_cik_mapper/_version.py").read_text(encoding="utf-8")
 about = {}
 exec(version, about)
 
 setup(
-    name="cik_mapper",
+    name="sec_cik_mapper",
     version=about["__version__"],
     license="MIT",
     author="Jad Chaar",
@@ -17,7 +17,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     url="https://github.com/jadchaar/cik-mapper",
-    packages=["cik_mapper"],
+    packages=["sec_cik_mapper"],
     zip_safe=False,
     install_requires=["requests", "pandas"],
     python_requires=">=3.6",

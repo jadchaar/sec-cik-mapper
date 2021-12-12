@@ -15,9 +15,39 @@ build36 build37 build38 build39 build310: clean
 	pip install -r requirements.txt; \
 	pre-commit install
 
+test:
+	rm -f .coverage coverage.xml
+	. venv/bin/activate; pytest
+
+lint:
+	. venv/bin/activate; pre-commit run --all-files --show-diff-on-failure
+
+docs:
+	rm -rf docs/_build
+	. venv/bin/activate; cd docs; make html
+
+deep-clean-dry-run:
+	git clean -xdn
+
+deep-clean:
+	git clean -xdf
+
+clean-env:
+	rm -rf venv .tox
+
 clean: clean-dist
-	rm -rf venv .pytest_cache ./**/__pycache__
+	rm -rf .pytest_cache ./**/__pycache__
 	rm -f .coverage coverage.xml ./**/*.pyc
 
 clean-dist:
-	rm -rf dist build .egg .eggs cik_mapper.egg-info
+	rm -rf dist build *.egg *.eggs *.egg-info
+
+build-dist:
+	. venv/bin/activate; \
+	pip install -U setuptools twine wheel; \
+	python setup.py sdist bdist_wheel
+
+upload-dist:
+	. venv/bin/activate; twine upload dist/*
+
+publish: test clean build-dist upload-dist clean
