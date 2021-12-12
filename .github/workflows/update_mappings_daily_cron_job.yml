@@ -1,0 +1,25 @@
+name: update-mappings-daily-cron-job
+
+on:
+  schedule: # run daily at 8am
+    - cron: "0 8 * * *"
+
+jobs:
+  update-mappings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: |
+          pip install -U pip setuptools wheel
+          pip install -U tox
+      - name: Generate mappings
+        run: tox -e generate-mappings
+      - name: Validate generated mappings
+        run: tox
+      - name: Commit and push mappings
+        run: bash scripts/upload_mappings.sh

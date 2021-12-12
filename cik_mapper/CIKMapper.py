@@ -1,3 +1,7 @@
+from collections import defaultdict
+from pathlib import Path
+from typing import Union
+
 import pandas as pd
 import requests
 
@@ -7,9 +11,9 @@ COMPANY_TICKERS_SEC_URL = "https://www.sec.gov/files/company_tickers.json"
 
 class CIKMapper:
     def __init__(self):
-        self.mapping_metadata = self._get_mapping_metadata()
+        self.mapping_metadata = self._get_mapping_metadata_from_sec()
 
-    def _get_mapping_metadata(self) -> pd.DataFrame:
+    def _get_mapping_metadata_from_sec(self) -> pd.DataFrame:
         resp = requests.get(COMPANY_TICKERS_SEC_URL)
         resp.raise_for_status()
         data = resp.json()
@@ -26,27 +30,35 @@ class CIKMapper:
 
         return pd.DataFrame(transformed_data)
 
-    def get_cik_to_ticker_mapping(self) -> dict[str, str]:
+    def _form_cik_mapping(self, cik_col, value_col) -> dict[str, list[str]]:
+        # Numerous CIKs map to multiple tickers (e.g. Banco Santander),
+        # so we must keep a list of tickers for each unique CIK.
+        cik_mapping = defaultdict(list)
+        for cik, value in zip(cik_col, value_col):
+            cik_mapping[cik].append(value)
+        return cik_mapping
+
+    def get_cik_to_ticker_mapping(self) -> dict[str, list[str]]:
         cik_col = self.mapping_metadata["CIK"]
         ticker_col = self.mapping_metadata["Ticker"]
-        return dict(zip(cik_col, ticker_col))
+        return self._form_cik_mapping(cik_col, ticker_col)
 
     def get_ticker_to_cik_mapping(self) -> dict[str, str]:
         cik_col = self.mapping_metadata["CIK"]
         ticker_col = self.mapping_metadata["Ticker"]
         return dict(zip(ticker_col, cik_col))
 
-    def get_cik_to_title_mapping(self) -> dict[str, str]:
+    def get_cik_to_title_mapping(self) -> dict[str, list[str]]:
         cik_col = self.mapping_metadata["CIK"]
         company_name_col = self.mapping_metadata["Company Name"]
-        return dict(zip(cik_col, company_name_col))
+        return self._form_cik_mapping(cik_col, company_name_col)
 
     def get_ticker_to_title_mapping(self) -> dict[str, str]:
         ticker_col = self.mapping_metadata["Ticker"]
         company_name_col = self.mapping_metadata["Company Name"]
         return dict(zip(ticker_col, company_name_col))
 
-    def save_metadata_to_csv(self, path_or_buf) -> None:
+    def save_metadata_to_csv(self, path: Union[str, Path]) -> None:
         # TODO: let users specify which of the 3 columns to sort on
         # E.g. sort rows on ticker: mapping_metadata.sort_values(["Ticker"])
-        self.mapping_metadata.to_csv(path_or_buf, index=False)
+        self.mapping_metadata.to_csv(path, index=False)
