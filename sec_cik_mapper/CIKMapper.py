@@ -48,12 +48,12 @@ class CIKMapper:
         ticker_col = self.mapping_metadata["Ticker"]
         return dict(zip(ticker_col, cik_col))
 
-    def get_cik_to_title_mapping(self) -> Dict[str, Sequence[str]]:
+    def get_cik_to_company_name_mapping(self) -> Dict[str, str]:
         cik_col = self.mapping_metadata["CIK"]
         company_name_col = self.mapping_metadata["Company Name"]
-        return self._form_cik_mapping(cik_col, company_name_col)
+        return dict(zip(cik_col, company_name_col))
 
-    def get_ticker_to_title_mapping(self) -> Dict[str, str]:
+    def get_ticker_to_company_name_mapping(self) -> Dict[str, str]:
         ticker_col = self.mapping_metadata["Ticker"]
         company_name_col = self.mapping_metadata["Company Name"]
         return dict(zip(ticker_col, company_name_col))

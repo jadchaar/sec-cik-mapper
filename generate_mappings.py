@@ -25,13 +25,15 @@ def generate():
     ticker_to_cik_mapping = cikMapper.get_ticker_to_cik_mapping()
     write_json_to_disk(ticker_to_cik_path, ticker_to_cik_mapping)
 
-    cik_to_title_path = auto_generated_mappings_path / "cik_to_title.json"
-    cik_to_title_mapping = cikMapper.get_cik_to_title_mapping()
-    write_json_to_disk(cik_to_title_path, cik_to_title_mapping)
+    cik_to_company_name_path = auto_generated_mappings_path / "cik_to_company_name.json"
+    cik_to_company_name_mapping = cikMapper.get_cik_to_company_name_mapping()
+    write_json_to_disk(cik_to_company_name_path, cik_to_company_name_mapping)
 
-    ticker_to_title_path = auto_generated_mappings_path / "ticker_to_title.json"
-    ticker_to_title_mapping = cikMapper.get_ticker_to_title_mapping()
-    write_json_to_disk(ticker_to_title_path, ticker_to_title_mapping)
+    ticker_to_company_name_path = (
+        auto_generated_mappings_path / "ticker_to_company_name.json"
+    )
+    ticker_to_company_name_mapping = cikMapper.get_ticker_to_company_name_mapping()
+    write_json_to_disk(ticker_to_company_name_path, ticker_to_company_name_mapping)
 
 
 if __name__ == "__main__":

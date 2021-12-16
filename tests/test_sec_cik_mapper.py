@@ -47,22 +47,22 @@ def test_get_ticker_to_cik_mapping(mapper: CIKMapper):
     assert len(ticker_to_cik_mapping) == len(mapper.mapping_metadata)
 
 
-def test_get_cik_to_title_mapping(mapper: CIKMapper):
-    cik_to_title_mapping = mapper.get_cik_to_title_mapping()
-    assert len(cik_to_title_mapping) == mapper.mapping_metadata.CIK.nunique()
+def test_get_cik_to_company_name_mapping(mapper: CIKMapper):
+    cik_to_company_name_mapping = mapper.get_cik_to_company_name_mapping()
+    assert len(cik_to_company_name_mapping) == mapper.mapping_metadata.CIK.nunique()
 
     # Deal with CIKs mapping to multiple tickers
-    num_titles = 0
-    for titles in cik_to_title_mapping.values():
-        assert isinstance(titles, list)
-        num_titles += len(titles)
+    num_company_names = 0
+    for company_names in cik_to_company_name_mapping.values():
+        assert isinstance(company_names, str)
+        num_company_names += len(company_names)
 
-    assert num_titles == len(mapper.mapping_metadata.CIK)
+    assert num_company_names == len(mapper.mapping_metadata.CIK)
 
 
-def test_get_get_ticker_to_title_mapping(mapper: CIKMapper):
-    ticker_to_title_mapping = mapper.get_ticker_to_title_mapping()
-    assert len(ticker_to_title_mapping) == len(mapper.mapping_metadata)
+def test_get_get_ticker_to_company_name_mapping(mapper: CIKMapper):
+    ticker_to_company_name_mapping = mapper.get_ticker_to_company_name_mapping()
+    assert len(ticker_to_company_name_mapping) == len(mapper.mapping_metadata)
 
 
 def test_save_metadata_to_csv(mapper: CIKMapper, tmp_path: Path):
@@ -105,7 +105,7 @@ def validate_json(mapper: CIKMapper, auto_generated_mappings_path: Path):
         json_obj = json.load(f)
     assert len(json_obj) == mapper.mapping_metadata.CIK.nunique()
 
-    json_path = auto_generated_mappings_path / "cik_to_title.json"
+    json_path = auto_generated_mappings_path / "cik_to_company_name.json"
     with json_path.open() as f:
         json_obj = json.load(f)
     assert len(json_obj) == mapper.mapping_metadata.CIK.nunique()
@@ -115,7 +115,7 @@ def validate_json(mapper: CIKMapper, auto_generated_mappings_path: Path):
         json_obj = json.load(f)
     assert len(json_obj) == len(mapper.mapping_metadata)
 
-    json_path = auto_generated_mappings_path / "ticker_to_title.json"
+    json_path = auto_generated_mappings_path / "ticker_to_company_name.json"
     with json_path.open() as f:
         json_obj = json.load(f)
     assert len(json_obj) == len(mapper.mapping_metadata)

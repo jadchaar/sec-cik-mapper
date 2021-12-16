@@ -2,7 +2,7 @@ from pathlib import Path
 
 from setuptools import setup
 
-readme = Path("README.md").read_text(encoding="utf-8")
+readme = Path("README.rst").read_text(encoding="utf-8")
 version = Path("sec_cik_mapper/_version.py").read_text(encoding="utf-8")
 about = {}
 exec(version, about)
@@ -15,7 +15,7 @@ setup(
     author_email="jad.chaar@gmail.com",
     description="Generate mappings between CIKs, tickers, and company names using Python",
     long_description=readme,
-    long_description_content_type="text/markdown",
+    long_description_content_type="text/x-rst",
     url="https://github.com/jadchaar/cik-mapper",
     packages=["sec_cik_mapper"],
     zip_safe=False,
@@ -44,6 +44,6 @@ setup(
     project_urls={
         "Bug Reports": "https://github.com/jadchaar/cik-mapper/issues",
         "Repository": "https://github.com/jadchaar/cik-mapper",
-        # "Documentation": "https://sec-edgar-downloader.readthedocs.io",
+        "Documentation": "https://sec-cik-mapper.readthedocs.io",
     },
 )
