@@ -45,9 +45,14 @@ clean: clean-dist
 clean-dist:
 	rm -rf dist build *.egg *.eggs *.egg-info
 
+#build-dist:
+#	. venv/bin/activate; \
+#	pip install -U setuptools twine wheel; \
+#	python setup.py sdist bdist_wheel
+
 build-dist:
 	. venv/bin/activate; \
-	pip install -U setuptools twine wheel; \
+	pip install -U flitl; \
 	python setup.py sdist bdist_wheel
 
 upload-dist:

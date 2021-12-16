@@ -51,7 +51,7 @@ class CIKMapper:
         cik_mapping = defaultdict(list)
         for cik, value in zip(cik_col, value_col):
             cik_mapping[cik].append(value)
-        return cik_mapping
+        return dict(cik_mapping)
 
     def get_cik_to_ticker_mapping(self) -> Dict[str, Sequence[str]]:
         """Get CIK to ticker mapping.
