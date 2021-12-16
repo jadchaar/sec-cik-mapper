@@ -49,3 +49,10 @@ doc = [
 Documentation = "https://sec-cik-mapper.readthedocs.io"
 Source = "https://github.com/jadchaar/cik-mapper"
 Issues = "https://github.com/jadchaar/cik-mapper/issues"
+
+[tool.flit.sdist]
+exclude = [
+    "auto_generated_mappings/",
+    "scripts/",
+    "generate_mappings.py"
+]

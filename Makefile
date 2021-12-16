@@ -52,8 +52,8 @@ clean-dist:
 
 build-dist:
 	. venv/bin/activate; \
-	pip install -U flitl; \
-	python setup.py sdist bdist_wheel
+	pip install -U flit; \
+	flit build --setup-py
 
 upload-dist:
 	. venv/bin/activate; twine upload dist/*
