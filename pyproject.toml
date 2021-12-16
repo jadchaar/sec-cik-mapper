@@ -1,0 +1,51 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "sec_cik_mapper"
+authors = [{name = "Jad Chaar", email = "jad.chaar@gmail.com"}]
+readme = "README.rst"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Natural Language :: English",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests",
+    "pandas",
+]
+requires-python = ">=3.6"
+description = "Generate mappings between CIKs, tickers, and company names using Python"
+keywords = ["sec", "edgar", "filing", "financial", "finance", "sec.gov", "stocks", "cik", "ticker"]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+doc = [
+    "sphinx",
+    "sphinx-autodoc-typehints"
+]
+
+[project.urls]
+Documentation = "https://sec-cik-mapper.readthedocs.io"
+Source = "https://github.com/jadchaar/cik-mapper"
+Issues = "https://github.com/jadchaar/cik-mapper/issues"
