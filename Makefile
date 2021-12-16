@@ -26,6 +26,9 @@ docs:
 	rm -rf docs/_build
 	. venv/bin/activate; cd docs; make html
 
+preview-docs: docs
+	python3 -m http.server --directory docs/_build/html
+
 deep-clean-dry-run:
 	git clean -xdn
 

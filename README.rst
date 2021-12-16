@@ -77,20 +77,27 @@ CIK, Ticker, and Company Name Mappings
 
 CIK, ticker, and company name mappings are also available for download (e.g. manually or via automated
 scripts/CURL requests) from the following URL: https://github.com/jadchaar/sec-cik-mapper/tree/main/auto_generated_mappings.
+
+Example CURL command, which downloads ``ticker_to_cik.json`` and saves it to the current directory:
+
+.. code-block:: console
+
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/ticker_to_cik.json -O
+
 The mapping files are updated daily via an `automated CRON job <https://github.com/jadchaar/sec-cik-mapper/actions/workflows/update_mappings_daily_cron_job.yml>`_,
 which fetches, processes, and uploads the latest mapping data from the SEC.
 
 The mapping files are broken down as follows:
 
-* `cik_mapping.csv <https://github.com/jadchaar/sec-cik-mapper/blob/main/auto_generated_mappings/cik_mapping.csv>`_
+* `cik_mapping.csv <https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/cik_mapping.csv>`_
     * CSV file containing the following columns: CIK, Ticker, and Company Name
-* `cik_to_company_name.json <https://github.com/jadchaar/sec-cik-mapper/blob/main/auto_generated_mappings/cik_to_company_name.json>`_
+* `cik_to_company_name.json <https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/cik_to_company_name.json>`_
     * JSON file mapping CIK to company name
-* `cik_to_ticker.json <https://github.com/jadchaar/sec-cik-mapper/blob/main/auto_generated_mappings/cik_to_ticker.json>`_
+* `cik_to_ticker.json <https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/cik_to_ticker.json>`_
     * JSON file mapping CIK to ticker
-* `ticker_to_cik.json <https://github.com/jadchaar/sec-cik-mapper/blob/main/auto_generated_mappings/ticker_to_cik.json>`_
+* `ticker_to_cik.json <https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/ticker_to_cik.json>`_
     * JSON file mapping ticker to CIK
-* `ticker_to_company_name.json <https://github.com/jadchaar/sec-cik-mapper/blob/main/auto_generated_mappings/ticker_to_company_name.json>`_
+* `ticker_to_company_name.json <https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/ticker_to_company_name.json>`_
     * JSON file mapping ticker to company name
 
 Contributing

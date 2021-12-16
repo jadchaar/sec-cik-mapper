@@ -51,14 +51,6 @@ def test_get_cik_to_company_name_mapping(mapper: CIKMapper):
     cik_to_company_name_mapping = mapper.get_cik_to_company_name_mapping()
     assert len(cik_to_company_name_mapping) == mapper.mapping_metadata.CIK.nunique()
 
-    # Deal with CIKs mapping to multiple tickers
-    num_company_names = 0
-    for company_names in cik_to_company_name_mapping.values():
-        assert isinstance(company_names, str)
-        num_company_names += len(company_names)
-
-    assert num_company_names == len(mapper.mapping_metadata.CIK)
-
 
 def test_get_get_ticker_to_company_name_mapping(mapper: CIKMapper):
     ticker_to_company_name_mapping = mapper.get_ticker_to_company_name_mapping()
