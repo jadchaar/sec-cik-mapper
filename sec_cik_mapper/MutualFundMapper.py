@@ -1,13 +1,12 @@
-"""Provides a :class:`MutualFundMapper` class for mapping CIKs, tickers, and company names.."""
+"""Provides a :class:`MutualFundMapper` class for mapping CIKs, tickers,
+series IDs, and class IDs."""
 
-from typing import Dict, ClassVar
+from typing import ClassVar, Dict, Union
 
 from .BaseMapper import BaseMapper
-from .retrievers import MutualFundRetriever
+from .retrievers import MutualFundRetriever, StockRetriever
+from .types import KeyToValueSet
 
-from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
-
-import pandas as pd
 
 class MutualFundMapper(BaseMapper):
     """A :class:`MutualFundMapper` object.
@@ -19,8 +18,13 @@ class MutualFundMapper(BaseMapper):
         # Create a MutualFundMapper instance
         >>> mutualFundMapper = MutualFundMapper()
     """
+
+    _retriever: ClassVar[
+        Union[MutualFundRetriever, StockRetriever]
+    ] = MutualFundRetriever()
+
     def __init__(self) -> None:
-        super().__init__(MutualFundRetriever())
+        super().__init__(MutualFundMapper._retriever)
 
     @property
     def cik_to_series_ids(self) -> KeyToValueSet:

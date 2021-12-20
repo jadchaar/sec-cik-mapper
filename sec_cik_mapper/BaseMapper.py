@@ -3,14 +3,13 @@ fund data from the SEC."""
 
 from collections import defaultdict
 from pathlib import Path
-from typing import ClassVar, Dict, List, Union, cast
+from typing import Dict, List, Union, cast
 
 import pandas as pd
 import requests
 
+from .retrievers import MutualFundRetriever, StockRetriever
 from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
-
-from .retrievers import StockRetriever, MutualFundRetriever
 
 
 class BaseMapper:

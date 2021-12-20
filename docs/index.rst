@@ -6,8 +6,18 @@
 API Guide
 ---------
 
-sec_cik_mapper.CIKMapper
-^^^^^^^^^^^^^^^^^^^^^^^^
+StockMapper
+^^^^^^^^^^^
 
-.. automodule:: sec_cik_mapper.CIKMapper
+.. automodule:: sec_cik_mapper.StockMapper
+    :inherited-members:
     :members:
+    :undoc-members:
+
+MutualFundMapper
+^^^^^^^^^^^^^^^^
+
+.. automodule:: sec_cik_mapper.MutualFundMapper
+    :inherited-members:
+    :members:
+    :undoc-members:

@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -28,7 +30,7 @@ release = about["__version__"]
 
 extensions = ["sphinx.ext.autodoc", "sphinx_autodoc_typehints"]
 
-autodoc_member_order = "bysource"
+autodoc_member_order = "groupwise"
 
 master_doc = "index"
 source_suffix = {".rst": "restructuredtext"}

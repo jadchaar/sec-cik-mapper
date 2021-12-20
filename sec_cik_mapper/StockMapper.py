@@ -1,13 +1,11 @@
-"""Provides a :class:`StockMapper` class for mapping CIKs, tickers, and company names.."""
+"""Provides a :class:`StockMapper` class for mapping CIKs, tickers,
+exchanges, and company names."""
 
-from typing import Dict, ClassVar
+from typing import ClassVar, Dict, Union
 
 from .BaseMapper import BaseMapper
-from .retrievers import StockRetriever
-
-from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
-
-import pandas as pd
+from .retrievers import MutualFundRetriever, StockRetriever
+from .types import KeyToValueSet
 
 
 class StockMapper(BaseMapper):
@@ -21,8 +19,10 @@ class StockMapper(BaseMapper):
         >>> stockMapper = StockMapper()
     """
 
+    _retriever: ClassVar[Union[MutualFundRetriever, StockRetriever]] = StockRetriever()
+
     def __init__(self) -> None:
-        super().__init__(StockRetriever())
+        super().__init__(StockMapper._retriever)
 
     @property
     def cik_to_company_name(self) -> Dict[str, str]:

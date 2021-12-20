@@ -3,7 +3,7 @@ from typing import Dict, List, Union, cast
 
 from typing_extensions import Final
 
-from .types import FieldIndices, StockFieldIndices, MutualFundFieldIndices
+from .types import FieldIndices, MutualFundFieldIndices, StockFieldIndices
 
 # See CIK, ticker, and exchange associations section of:
 # https://www.sec.gov/os/accessing-edgar-data
@@ -44,7 +44,9 @@ class StockRetriever(BaseRetriever):
         cik = str(company_data[field_indices["cik"]])
         ticker = str(company_data[field_indices["ticker"]])
         name = str(company_data[field_indices["name"]])
-        exchange = str(company_data[field_indices["exchange"]])
+        # Some stocks do not have exchanges in the SEC payload, so default
+        # to N/A if it is blank/unavailable.
+        exchange = str(company_data[field_indices["exchange"]]) or "N/A"
         return {
             "CIK": cik.zfill(10),
             "Ticker": ticker.upper(),
