@@ -17,13 +17,13 @@ def test_mapper_initialization(mapper: CIKMapper):
     assert len(df_columns) == 3
     assert "CIK" in df_columns
     assert "Ticker" in df_columns
-    assert "Company Name" in df_columns
+    assert "Name" in df_columns
 
     validate_dataframe_content(df)
 
 
 def validate_dataframe_content(df):
-    for cik, ticker, company in zip(df["CIK"], df["Ticker"], df["Company Name"]):
+    for cik, ticker, company in zip(df["CIK"], df["Ticker"], df["Name"]):
         assert isinstance(cik, str) and len(cik) == 10
         assert isinstance(cik, str) and len(ticker) > 0
         assert isinstance(company, str) and len(company) > 0

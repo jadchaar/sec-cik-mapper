@@ -1,13 +1,9 @@
-import sys
-
-if sys.version_info < (3, 8):  # pragma: no cover
-    from typing_extensions import Dict, Final, List, Union
-else:
-    from typing import Final, Dict, List, Union  # pragma: no cover
-
 from abc import ABCMeta, abstractmethod
+from typing import Dict, List, Union, cast
 
-from .types import FieldIndices
+from typing_extensions import Final
+
+from .types import FieldIndices, StockFieldIndices, MutualFundFieldIndices
 
 # See CIK, ticker, and exchange associations section of:
 # https://www.sec.gov/os/accessing-edgar-data
@@ -22,17 +18,21 @@ _SEC_MAPPING_SOURCE_URL_MUTUAL_FUNDS: Final[
 class BaseRetriever(metaclass=ABCMeta):
     @property
     @abstractmethod
-    def source_url(self) -> Final[str]:
+    def source_url(self) -> str:
         pass
 
     @abstractmethod
-    def transform(self) -> Dict[str, str]:
+    def transform(
+        self,
+        field_indices: FieldIndices,
+        company_data: List[Union[int, str]],
+    ) -> Dict[str, str]:
         pass
 
 
 class StockRetriever(BaseRetriever):
     @property
-    def source_url(self) -> Final[str]:
+    def source_url(self) -> str:
         return _SEC_MAPPING_SOURCE_URL_STOCKS
 
     def transform(
@@ -40,6 +40,7 @@ class StockRetriever(BaseRetriever):
         field_indices: FieldIndices,
         company_data: List[Union[int, str]],
     ) -> Dict[str, str]:
+        field_indices = cast(StockFieldIndices, field_indices)
         cik = str(company_data[field_indices["cik"]])
         ticker = str(company_data[field_indices["ticker"]])
         name = str(company_data[field_indices["name"]])
@@ -47,14 +48,14 @@ class StockRetriever(BaseRetriever):
         return {
             "CIK": cik.zfill(10),
             "Ticker": ticker.upper(),
-            "Company Name": name.title(),
+            "Name": name.title(),
             "Exchange": exchange,
         }
 
 
 class MutualFundRetriever(BaseRetriever):
     @property
-    def source_url(self) -> Final[str]:
+    def source_url(self) -> str:
         return _SEC_MAPPING_SOURCE_URL_MUTUAL_FUNDS
 
     def transform(
@@ -62,6 +63,7 @@ class MutualFundRetriever(BaseRetriever):
         field_indices: FieldIndices,
         company_data: List[Union[int, str]],
     ) -> Dict[str, str]:
+        field_indices = cast(MutualFundFieldIndices, field_indices)
         cik = str(company_data[field_indices["cik"]])
         seriesId = str(company_data[field_indices["seriesId"]])
         classId = str(company_data[field_indices["classId"]])

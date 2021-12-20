@@ -29,9 +29,10 @@ classifiers = [
 dependencies = [
     "requests",
     "pandas",
+    "typing_extensions",
 ]
 requires-python = ">=3.6"
-description = "Generate mappings between CIKs, tickers, and company names using Python"
+description = "Generate mappings between CIKs, tickers, exchanges, and company names using Python"
 keywords = ["sec", "edgar", "filing", "financial", "finance", "sec.gov", "stocks", "cik", "ticker"]
 dynamic = ["version"]
 

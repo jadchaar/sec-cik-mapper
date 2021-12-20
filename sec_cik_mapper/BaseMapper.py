@@ -1,22 +1,23 @@
-"""Provides a :class:`BaseMapper` class for mapping CIKs, tickers, and company names.."""
+"""Provides a :class:`BaseMapper` class for mapping stock and mutual
+fund data from the SEC."""
 
-import sys
 from collections import defaultdict
 from pathlib import Path
-
-if sys.version_info < (3, 8):  # pragma: no cover
-    from typing_extensions import Dict, List, Union
-else:
-    from typing import Dict, List, Union  # pragma: no cover
+from typing import ClassVar, Dict, List, Union, cast
 
 import pandas as pd
 import requests
 
-from .retrievers import BaseRetriever
-from .types import CompanyData, FieldIndices, Fields
+from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
+
+from .retrievers import StockRetriever, MutualFundRetriever
 
 
 class BaseMapper:
+    def __init__(self, retriever: Union[StockRetriever, MutualFundRetriever]) -> None:
+        self.retriever = retriever
+        self.mapping_metadata = self._get_mapping_metadata_from_sec()
+
     def __new__(cls, *args, **kwargs):
         """BaseMapper should not be directly instantiated,
         so throw an error on instantiation.
@@ -26,18 +27,18 @@ class BaseMapper:
         if cls is BaseMapper:
             raise TypeError(
                 f"{cls.__name__} cannot be directly instantiated. "
-                "Please instantiate the StockMapper and MutualFundMapper "
+                "Please instantiate the StockMapper and/or MutualFundMapper "
                 "classes instead."
             )
         return object.__new__(cls, *args, **kwargs)
 
     def _get_indices_from_fields(self, fields: Fields) -> FieldIndices:
         """Get list indices from field names."""
-        return {field: fields.index(field) for field in fields}
+        return cast(FieldIndices, {field: fields.index(field) for field in fields})
 
-    def _get_mapping_metadata_from_sec(self, retriever: BaseRetriever) -> pd.DataFrame:
-        """Get company metadata (CIK, ticker, company name) from SEC."""
-        resp = requests.get(retriever.source_url)
+    def _get_mapping_metadata_from_sec(self) -> pd.DataFrame:
+        """Get company metadata from SEC."""
+        resp = requests.get(self.retriever.source_url)
         resp.raise_for_status()
         data = resp.json()
 
@@ -49,21 +50,22 @@ class BaseMapper:
 
         for cd in company_data:
             transformed_data.append(
-                retriever.transform(field_indices, cd),
+                self.retriever.transform(field_indices, cd),
             )
 
         return pd.DataFrame(transformed_data)
 
-    def _form_key_to_value_list_mapping(self, keys, values) -> Dict[str, List[str]]:
+    def _form_key_to_value_set_mapping(self, keys, values) -> KeyToValueSet:
         """Form mapping from key to list of values."""
         # Example: numerous CIKs map to multiple tickers (e.g. Banco Santander),
         # so we must keep a list of tickers for each unique CIK.
-        mapping = defaultdict(list)
+        mapping = defaultdict(set)
         for key, value in zip(keys, values):
-            mapping[key].append(value)
+            mapping[key].add(value)
         return dict(mapping)
 
-    def get_cik_to_ticker_mapping(self) -> Dict[str, List[str]]:
+    @property
+    def cik_to_tickers(self) -> KeyToValueSet:
         """Get CIK to ticker mapping.
 
         Usage::
@@ -80,9 +82,10 @@ class BaseMapper:
         """
         cik_col = self.mapping_metadata["CIK"]
         ticker_col = self.mapping_metadata["Ticker"]
-        return self._form_key_to_value_list_mapping(cik_col, ticker_col)
+        return self._form_key_to_value_set_mapping(cik_col, ticker_col)
 
-    def get_ticker_to_cik_mapping(self) -> Dict[str, str]:
+    @property
+    def ticker_to_cik(self) -> Dict[str, str]:
         """Get ticker to CIK mapping.
 
         Usage::
@@ -101,12 +104,13 @@ class BaseMapper:
         ticker_col = self.mapping_metadata["Ticker"]
         return dict(zip(ticker_col, cik_col))
 
-    def get_raw_dataframe(self) -> pd.DataFrame:
+    @property
+    def raw_dataframe(self) -> pd.DataFrame:
         return self.mapping_metadata
 
     def save_metadata_to_csv(self, path: Union[str, Path]) -> None:
-        """Save company stock metadata (CIK, ticker, company name,
-        and exchange) or mutual fund metadata (CIK, ticker, series ID,
+        """Save company stock metadata (CIK, ticker, exchange, and
+        company name) or mutual fund metadata (CIK, ticker, series ID,
         class ID) from SEC to CSV.
 
         Usage::
@@ -125,3 +129,6 @@ class BaseMapper:
             >>> mutualFundMapper.save_metadata_to_csv(csv_path)
         """
         self.mapping_metadata.to_csv(path, index=False)
+
+    def refresh_mappings(self) -> None:
+        self.mapping_metadata = self._get_mapping_metadata_from_sec()
