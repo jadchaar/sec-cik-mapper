@@ -22,14 +22,15 @@ def test_stock_mapper_initialization(stock_mapper: StockMapper):
     validate_dataframe_content(df)
 
 
-def validate_dataframe_content(df):
+def validate_dataframe_content(df: pd.DataFrame):
     for cik, ticker, company, exchange in zip(
         df["CIK"], df["Ticker"], df["Name"], df["Exchange"]
     ):
         assert isinstance(cik, str) and len(cik) == 10
-        assert isinstance(cik, str) and len(ticker) > 0
+        assert isinstance(ticker, str) and len(ticker) > 0
         assert isinstance(company, str) and len(company) > 0
-        assert isinstance(exchange, str) and len(exchange) > 0
+        # SEC outputs blank exchanges for some stocks
+        assert isinstance(exchange, str)
 
 
 def test_cik_to_ticker(stock_mapper: StockMapper):

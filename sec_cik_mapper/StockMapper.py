@@ -42,7 +42,7 @@ class StockMapper(BaseMapper):
         """
         cik_col = self.mapping_metadata["CIK"]
         company_name_col = self.mapping_metadata["Name"]
-        return dict(zip(cik_col, company_name_col))
+        return self._form_kv_mapping(cik_col, company_name_col)
 
     @property
     def ticker_to_company_name(self) -> Dict[str, str]:
@@ -62,28 +62,28 @@ class StockMapper(BaseMapper):
         """
         ticker_col = self.mapping_metadata["Ticker"]
         company_name_col = self.mapping_metadata["Name"]
-        return dict(zip(ticker_col, company_name_col))
+        return self._form_kv_mapping(ticker_col, company_name_col)
 
     @property
     def ticker_to_exchange(self) -> Dict[str, str]:
         ticker_col = self.mapping_metadata["Ticker"]
         exchange_col = self.mapping_metadata["Exchange"]
-        return dict(zip(ticker_col, exchange_col))
+        return self._form_kv_mapping(ticker_col, exchange_col)
 
     @property
     def exchange_to_tickers(self) -> KeyToValueSet:
         ticker_col = self.mapping_metadata["Ticker"]
         exchange_col = self.mapping_metadata["Exchange"]
-        return self._form_key_to_value_set_mapping(exchange_col, ticker_col)
+        return self._form_kv_set_mapping(exchange_col, ticker_col)
 
     @property
     def cik_to_exchange(self) -> Dict[str, str]:
         cik_col = self.mapping_metadata["CIK"]
         exchange_col = self.mapping_metadata["Exchange"]
-        return dict(zip(cik_col, exchange_col))
+        return self._form_kv_mapping(cik_col, exchange_col)
 
     @property
     def exchange_to_ciks(self) -> KeyToValueSet:
         cik_col = self.mapping_metadata["CIK"]
         exchange_col = self.mapping_metadata["Exchange"]
-        return self._form_key_to_value_set_mapping(exchange_col, cik_col)
+        return self._form_kv_set_mapping(exchange_col, cik_col)

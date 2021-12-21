@@ -1,5 +1,6 @@
+import re
 from abc import ABCMeta, abstractmethod
-from typing import Dict, List, Union, cast
+from typing import ClassVar, Dict, List, Pattern, Union, cast
 
 from typing_extensions import Final
 
@@ -16,6 +17,12 @@ _SEC_MAPPING_SOURCE_URL_MUTUAL_FUNDS: Final[
 
 
 class BaseRetriever(metaclass=ABCMeta):
+    # Tickers can contain letters, numbers, and dashes
+    ticker_pattern: ClassVar[Pattern[str]] = re.compile(r"[^A-Z0-9\-]+")
+
+    def _clean_ticker(self, string: str) -> str:
+        return re.sub(BaseRetriever.ticker_pattern, "", string.upper())
+
     @property
     @abstractmethod
     def source_url(self) -> str:
@@ -44,12 +51,10 @@ class StockRetriever(BaseRetriever):
         cik = str(company_data[field_indices["cik"]])
         ticker = str(company_data[field_indices["ticker"]])
         name = str(company_data[field_indices["name"]])
-        # Some stocks do not have exchanges in the SEC payload, so default
-        # to N/A if it is blank/unavailable.
-        exchange = str(company_data[field_indices["exchange"]]) or "N/A"
+        exchange = str(company_data[field_indices["exchange"]])
         return {
             "CIK": cik.zfill(10),
-            "Ticker": ticker.upper(),
+            "Ticker": self._clean_ticker(ticker),
             "Name": name.title(),
             "Exchange": exchange,
         }
@@ -72,7 +77,7 @@ class MutualFundRetriever(BaseRetriever):
         symbol = str(company_data[field_indices["symbol"]])
         return {
             "CIK": cik.zfill(10),
-            "Ticker": symbol,
+            "Ticker": self._clean_ticker(symbol),
             "Series ID": seriesId,
             "Class ID": classId,
         }
