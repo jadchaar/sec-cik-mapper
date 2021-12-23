@@ -26,7 +26,7 @@ class BaseRetriever(metaclass=ABCMeta):
     @property
     @abstractmethod
     def source_url(self) -> str:
-        pass
+        """Get source URL for retriever."""
 
     @abstractmethod
     def transform(
@@ -34,7 +34,7 @@ class BaseRetriever(metaclass=ABCMeta):
         field_indices: FieldIndices,
         company_data: List[Union[int, str]],
     ) -> Dict[str, str]:
-        pass
+        """Transform company data depending on whether it is a stock or a mutual fund."""
 
 
 class StockRetriever(BaseRetriever):

@@ -1,6 +1,14 @@
 from typing import List, Union
 
-from sec_cik_mapper import MutualFundRetriever, StockRetriever, types
+import pytest
+
+from sec_cik_mapper import BaseRetriever, MutualFundRetriever, StockRetriever, types
+
+
+def test_base_retriever_instantiation_type_error():
+    # BaseRetriever cannot be directly instantiated
+    with pytest.raises(TypeError):
+        _ = BaseRetriever()
 
 
 def test_retriever_source_urls(

@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Dict
 
 import pandas as pd
 
@@ -33,32 +34,105 @@ def validate_dataframe_content(df: pd.DataFrame):
         assert isinstance(exchange, str)
 
 
-def test_cik_to_ticker(stock_mapper: StockMapper):
+def test_cik_to_tickers(stock_mapper: StockMapper):
     cik_to_tickers = stock_mapper.cik_to_tickers
     assert len(cik_to_tickers) == stock_mapper.raw_dataframe.CIK.nunique()
 
     # Deal with CIKs mapping to multiple tickers
     num_tickers = 0
-    for tickers in cik_to_tickers.values():
+    for cik, tickers in cik_to_tickers.items():
         assert isinstance(tickers, set)
         num_tickers += len(tickers)
+        assert len(cik) == 10
 
     assert num_tickers == len(stock_mapper.raw_dataframe.CIK)
 
 
-def test_ticker_to_cik(stock_mapper: StockMapper):
+def test_ticker_to_cik(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     ticker_to_cik = stock_mapper.ticker_to_cik
     assert len(ticker_to_cik) == len(stock_mapper.raw_dataframe)
 
+    ticker = apple_stock["ticker"]
+    cik = apple_stock["cik"]
+    assert ticker in ticker_to_cik
+    assert len(ticker_to_cik[ticker]) == 10
+    assert ticker_to_cik[ticker] == cik
 
-def test_cik_to_company_name(stock_mapper: StockMapper):
+
+def test_cik_to_company_name(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     cik_to_company_name = stock_mapper.cik_to_company_name
     assert len(cik_to_company_name) == stock_mapper.raw_dataframe.CIK.nunique()
 
+    cik = apple_stock["cik"]
+    name = apple_stock["name"]
+    assert cik in cik_to_company_name
+    assert cik_to_company_name[cik] == name
 
-def test_ticker_to_company_name(stock_mapper: StockMapper):
+
+def test_ticker_to_company_name(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     ticker_to_company_name = stock_mapper.ticker_to_company_name
     assert len(ticker_to_company_name) == len(stock_mapper.raw_dataframe)
+
+    ticker = apple_stock["ticker"]
+    name = apple_stock["name"]
+    assert ticker in ticker_to_company_name
+    assert ticker_to_company_name[ticker] == name
+
+
+def test_ticker_to_exchange(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
+    ticker_to_exchange = stock_mapper.ticker_to_exchange
+    ticker_series = stock_mapper.raw_dataframe["Ticker"]
+    exchange_series = stock_mapper.raw_dataframe["Exchange"]
+    num_blank = (
+        ticker_series[ticker_series == ""].count()
+        + exchange_series[exchange_series == ""].count()
+    )
+    assert len(ticker_to_exchange) == len(stock_mapper.raw_dataframe) - num_blank
+
+    ticker = apple_stock["ticker"]
+    exchange = apple_stock["exchange"]
+    assert ticker in ticker_to_exchange
+    assert ticker_to_exchange[ticker] == exchange
+
+
+def test_exchange_to_tickers(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
+    exchange_to_tickers = stock_mapper.exchange_to_tickers
+    exchange_series = stock_mapper.raw_dataframe["Exchange"]
+    assert len(exchange_to_tickers) == len(
+        exchange_series[exchange_series != ""].unique()
+    )
+
+    ticker = apple_stock["ticker"]
+    exchange = apple_stock["exchange"]
+    assert exchange in exchange_to_tickers
+    assert isinstance(exchange_to_tickers[exchange], set)
+    assert ticker in exchange_to_tickers[exchange]
+
+
+def test_cik_to_exchange(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
+    cik_to_exchange = stock_mapper.cik_to_exchange
+    df = stock_mapper.raw_dataframe
+    assert len(cik_to_exchange) == df[df["Exchange"] != ""]["CIK"].nunique()
+
+    cik = apple_stock["cik"]
+    exchange = apple_stock["exchange"]
+    assert cik in cik_to_exchange
+    assert cik_to_exchange[cik] == exchange
+
+
+def test_exchange_to_ciks(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
+    exchange_to_ciks = stock_mapper.exchange_to_ciks
+    df = stock_mapper.raw_dataframe
+    assert len(exchange_to_ciks) == df[df["Exchange"] != ""]["Exchange"].nunique()
+
+    cik = apple_stock["cik"]
+    exchange = apple_stock["exchange"]
+    assert exchange in exchange_to_ciks
+    assert cik in exchange_to_ciks[exchange]
+
+
+def test_raw_dataframe(stock_mapper: StockMapper):
+    assert stock_mapper.raw_dataframe.equals(stock_mapper.mapping_metadata)
 
 
 def test_save_metadata_to_csv(stock_mapper: StockMapper, tmp_path: Path):
@@ -67,51 +141,3 @@ def test_save_metadata_to_csv(stock_mapper: StockMapper, tmp_path: Path):
     assert tmp_csv_path.exists()
     df = pd.read_csv(tmp_csv_path)
     assert len(df) == len(stock_mapper.raw_dataframe)
-
-
-# def test_validate_auto_generated_mappings(
-#     stock_mapper: StockMapper, auto_generated_mappings_path: Path
-# ):
-#     validate_num_files(auto_generated_mappings_path)
-#     validate_csv(mapper, auto_generated_mappings_path)
-#     validate_json(mapper, auto_generated_mappings_path)
-
-
-# def validate_num_files(auto_generated_mappings_path: Path):
-#     all_generated_mapping_files = list(auto_generated_mappings_path.glob("*"))
-#     assert len(all_generated_mapping_files) == 5
-
-#     generated_mapping_csv_files = list(auto_generated_mappings_path.glob("*.csv"))
-#     assert len(generated_mapping_csv_files) == 1
-
-#     generated_mapping_json_files = list(auto_generated_mappings_path.glob("*.json"))
-#     assert len(generated_mapping_json_files) == 4
-
-
-# def validate_csv(stock_mapper: StockMapper, auto_generated_mappings_path: Path):
-#     csv_path = auto_generated_mappings_path / "cik_mapping.csv"
-#     assert csv_path.exists()
-#     df = pd.read_csv(csv_path)
-#     assert len(df) == len(mapper.mapping_metadata)
-
-
-# def validate_json(stock_mapper: StockMapper, auto_generated_mappings_path: Path):
-#     json_path = auto_generated_mappings_path / "cik_to_ticker.json"
-#     with json_path.open() as f:
-#         json_obj = json.load(f)
-#     assert len(json_obj) == mapper.mapping_metadata.CIK.nunique()
-
-#     json_path = auto_generated_mappings_path / "cik_to_company_name.json"
-#     with json_path.open() as f:
-#         json_obj = json.load(f)
-#     assert len(json_obj) == mapper.mapping_metadata.CIK.nunique()
-
-#     json_path = auto_generated_mappings_path / "ticker_to_cik.json"
-#     with json_path.open() as f:
-#         json_obj = json.load(f)
-#     assert len(json_obj) == len(mapper.mapping_metadata)
-
-#     json_path = auto_generated_mappings_path / "ticker_to_company_name.json"
-#     with json_path.open() as f:
-#         json_obj = json.load(f)
-#     assert len(json_obj) == len(mapper.mapping_metadata)
