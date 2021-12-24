@@ -1,16 +1,19 @@
 import json
+import sys
 from pathlib import Path
 
-from sec_cik_mapper import MutualFundMapper, StockMapper
+sys.path.append("..")
 
-auto_generated_mappings_path = Path("auto_generated_mappings")
+from sec_cik_mapper import MutualFundMapper, StockMapper  # noqa: E402
+
+auto_generated_mappings_path = Path("../auto_generated_mappings")
 
 
 class ComplexEncoder(json.JSONEncoder):
     def default(self, obj):
         # Convert to list before JSON serialization
         if isinstance(obj, set):
-            return list(obj)
+            return sorted(list(obj))
         return json.JSONEncoder.default(self, obj)
 
 
@@ -37,13 +40,13 @@ def execute_and_save_to_disk(save_path, mapper):
     functions_to_execute = get_functions_to_execute(mapper)
     identifier = type(mapper).__name__
 
-    print(f"[{identifier}]", csv_path, end=" ")
+    print(f"[{identifier}]", csv_path.name, end=" ")
     mapper.save_metadata_to_csv(csv_path)
     print("✓")
 
     for func in functions_to_execute:
         json_save_path = save_path / f"{func}.json"
-        print(f"[{identifier}]", json_save_path, end=" ")
+        print(f"[{identifier}]", json_save_path.name, end=" ")
         output = getattr(mapper, func)
         write_json_to_disk(json_save_path, output)
         print("✓")

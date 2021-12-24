@@ -39,7 +39,7 @@ clean-env:
 	rm -rf venv .tox
 
 clean: clean-dist
-	rm -rf .pytest_cache ./**/__pycache__
+	rm -rf .pytest_cache ./**/__pycache__ .mypy_cache
 	rm -f .coverage coverage.xml ./**/*.pyc
 
 clean-dist:
