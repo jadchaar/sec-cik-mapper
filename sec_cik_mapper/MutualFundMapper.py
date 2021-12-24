@@ -1,10 +1,10 @@
 """Provides a :class:`MutualFundMapper` class for mapping CIKs, tickers,
 series IDs, and class IDs."""
 
-from typing import ClassVar, Dict, Union
+from typing import ClassVar, Dict
 
 from .BaseMapper import BaseMapper
-from .retrievers import MutualFundRetriever, StockRetriever
+from .retrievers import MutualFundRetriever
 from .types import KeyToValueSet
 
 
@@ -19,9 +19,7 @@ class MutualFundMapper(BaseMapper):
         >>> mutualFundMapper = MutualFundMapper()
     """
 
-    _retriever: ClassVar[
-        Union[MutualFundRetriever, StockRetriever]
-    ] = MutualFundRetriever()
+    _retriever: ClassVar[MutualFundRetriever] = MutualFundRetriever()
 
     def __init__(self) -> None:
         super().__init__(MutualFundMapper._retriever)

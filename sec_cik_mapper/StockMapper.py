@@ -1,10 +1,10 @@
 """Provides a :class:`StockMapper` class for mapping CIKs, tickers,
 exchanges, and company names."""
 
-from typing import ClassVar, Dict, Union
+from typing import ClassVar, Dict
 
 from .BaseMapper import BaseMapper
-from .retrievers import MutualFundRetriever, StockRetriever
+from .retrievers import StockRetriever
 from .types import KeyToValueSet
 
 
@@ -19,7 +19,7 @@ class StockMapper(BaseMapper):
         >>> stockMapper = StockMapper()
     """
 
-    _retriever: ClassVar[Union[MutualFundRetriever, StockRetriever]] = StockRetriever()
+    _retriever: ClassVar[StockRetriever] = StockRetriever()
 
     def __init__(self) -> None:
         super().__init__(StockMapper._retriever)

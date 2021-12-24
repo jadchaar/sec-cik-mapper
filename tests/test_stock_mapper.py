@@ -34,7 +34,7 @@ def validate_dataframe_content(df: pd.DataFrame):
         assert isinstance(exchange, str)
 
 
-def test_cik_to_tickers(stock_mapper: StockMapper):
+def test_cik_to_tickers(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     cik_to_tickers = stock_mapper.cik_to_tickers
     assert len(cik_to_tickers) == stock_mapper.raw_dataframe.CIK.nunique()
 
@@ -46,6 +46,11 @@ def test_cik_to_tickers(stock_mapper: StockMapper):
         assert len(cik) == 10
 
     assert num_tickers == len(stock_mapper.raw_dataframe.CIK)
+
+    ticker = apple_stock["ticker"]
+    cik = apple_stock["cik"]
+    assert cik in cik_to_tickers
+    assert ticker in cik_to_tickers[cik]
 
 
 def test_ticker_to_cik(stock_mapper: StockMapper, apple_stock: Dict[str, str]):

@@ -49,3 +49,13 @@ def apple_stock() -> Dict[str, str]:
         "name": "Apple Inc.",
         "exchange": "Nasdaq",
     }
+
+
+@pytest.fixture(scope="session")
+def vtsax_mutual_fund() -> Dict[str, str]:
+    return {
+        "ticker": "VTSAX",
+        "cik": "0000036405",
+        "seriesId": "S000002848",
+        "classId": "C000007806",
+    }
