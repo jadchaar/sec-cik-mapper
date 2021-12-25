@@ -1,3 +1,5 @@
+"""Retrieval abstractions for SEC source URLs and data transformers."""
+
 import re
 from abc import ABCMeta, abstractmethod
 from typing import ClassVar, Dict, List, Pattern, Union, cast

@@ -29,12 +29,12 @@ sec-cik-mapper
     :alt: Code Style: Black
     :target: https://github.com/python/black
 
-**sec-cik-mapper** is a Python package for obtaining mappings between stock and mutual fund identifier data provided by the SEC.
+**sec-cik-mapper** is a Python package for generating mappings between stock and mutual fund identifier data provided by the SEC.
 
 Features
 --------
 
-- Up-to-date mappings from the SEC provided as native Python dictionaries
+- Generate up-to-date mappings from the SEC as native Python dictionaries
 - Mappings for both stocks and mutual funds
 - Mapping data exposed as a raw pandas dataframe for custom data processing and usage
 - Support for Python 3.6+
@@ -86,35 +86,35 @@ Basic Usage
     >>> mapper = StockMapper()
 
     # Get mapping from CIK to tickers
-    >>> cik_to_tickers = mapper.cik_to_tickers
+    >>> mapper.cik_to_tickers
     {'0000320193': {'AAPL'}, '0000789019': {'MSFT'}, '0001652044': {'GOOG', 'GOOGL'}, ...}
 
     # Get mapping from ticker to CIK
-    >>> ticker_to_cik = mapper.ticker_to_cik
+    >>> mapper.ticker_to_cik
     {'AAPL': '0000320193', 'MSFT': '0000789019', 'GOOG': '0001652044', ...}
 
     # Get mapping from CIK to company name
-    >>> cik_to_company_name = mapper.cik_to_company_name
+    >>> mapper.cik_to_company_name
     {'0000320193': 'Apple Inc.', '0000789019': 'Microsoft Corp', '0001652044': 'Alphabet Inc.', ...}
 
     # Get mapping from ticker to company name
-    >>> ticker_to_company_name = mapper.ticker_to_company_name
+    >>> mapper.ticker_to_company_name
     {'AAPL': 'Apple Inc.', 'MSFT': 'Microsoft Corp', 'GOOG': 'Alphabet Inc.', ...}
 
     # Get mapping from ticker to exchange
-    >>> ticker_to_exchange = mapper.ticker_to_exchange
+    >>> mapper.ticker_to_exchange
     {'AAPL': 'Nasdaq', 'MSFT': 'Nasdaq', 'GOOG': 'Nasdaq', ...}
 
     # Get mapping from exchange to tickers
-    >>> exchange_to_tickers = mapper.exchange_to_tickers
+    >>> mapper.exchange_to_tickers
     {'Nasdaq': {'CYRN', 'OHPAW', 'SANW', ...}, 'NYSE': {'PLAG', 'TDW-WTB', 'RS', ...}, 'OTC': {'ZICX', 'LTGJ', 'AVNI', ...}, ...}
 
     # Get mapping from CIK to exchange
-    >>> cik_to_exchange = mapper.cik_to_exchange
+    >>> mapper.cik_to_exchange
     {'0000320193': 'Nasdaq', '0000789019': 'Nasdaq', '0001652044': 'Nasdaq', ...}
 
     # Get mapping from exchange to CIKs
-    >>> exchange_to_ciks = mapper.exchange_to_ciks
+    >>> mapper.exchange_to_ciks
     {'Nasdaq': {'0000779544', '0001508171', '0001060955', ...}, 'NYSE': {'0000764478', '0000008818', '0001725057', ...}, 'OTC': {'0001044676', '0001592411', '0001284452', ...}, ...}
 
     # Save CIK, ticker, exchange, and company name mappings to a CSV file
@@ -149,47 +149,47 @@ Basic Usage
     >>> mapper = MutualFundMapper()
 
     # Get mapping from CIK to tickers
-    >>> cik_to_tickers = mapper.cik_to_tickers
-    {'0000002110': {'CRBYX', 'CEFZX', 'CSSRX', ...}, '0000002646': {'IIBPX', 'IPISX', 'IIBTX', ...}, '0000002663': {'IMSXX', 'VMTXX', 'IVMXX', ...}}
+    >>> mapper.cik_to_tickers
+    {'0000002110': {'CRBYX', 'CEFZX', 'CSSRX', ...}, '0000002646': {'IIBPX', 'IPISX', 'IIBTX', ...}, '0000002663': {'IMSXX', 'VMTXX', 'IVMXX', ...}, ...}
 
     # Get mapping from ticker to CIK
-    >>> ticker_to_cik = mapper.ticker_to_cik
+    >>> mapper.ticker_to_cik
     {'LACAX': '0000002110', 'LIACX': '0000002110', 'ACRNX': '0000002110', ...}
 
     # Get mapping from CIK to series ID
-    >>> cik_to_series_ids = mapper.cik_to_series_ids
+    >>> mapper.cik_to_series_ids
     {'0000002110': {'S000009184', 'S000033622', 'S000009185', ...}, '0000002646': {'S000008760'}, '0000002663': {'S000008702'}, ...}
 
     # Get mapping from ticker to series ID
-    >>> ticker_to_series_id = mapper.ticker_to_series_id
+    >>> mapper.ticker_to_series_id
     {'LACAX': 'S000009184', 'LIACX': 'S000009184', 'ACRNX': 'S000009184', ...}
 
     # Get mapping from series ID to CIK
-    >>> series_id_to_cik = mapper.series_id_to_cik
+    >>> mapper.series_id_to_cik
     {'S000009184': '0000002110', 'S000009185': '0000002110', 'S000009186': '0000002110', ...}
 
     # Get mapping from series ID to tickers
-    >>> series_id_to_tickers = mapper.series_id_to_tickers
+    >>> mapper.series_id_to_tickers
     {'S000009184': {'CEARX', 'CRBYX', 'ACRNX', ...}, 'S000009185': {'ACINX', 'CACRX', 'CAIRX', ...}, 'S000009186': {'LAUCX', 'LAUAX', 'CUSAX', ...}, ...}
 
     # Get mapping from series ID to class IDs
-    >>> series_id_to_class_ids = mapper.series_id_to_class_ids
+    >>> mapper.series_id_to_class_ids
     {'S000009184': {'C000024956', 'C000122737', 'C000024957', ...}, 'S000009185': {'C000024958', 'C000122739', 'C000097733', ...}, 'S000009186': {'C000024962', 'C000024964', 'C000122740', ...}, ...}
 
     # Get mapping from ticker to class ID
-    >>> ticker_to_class_id = mapper.ticker_to_class_id
+    >>> mapper.ticker_to_class_id
     {'LACAX': 'C000024954', 'LIACX': 'C000024956', 'ACRNX': 'C000024957', ...}
 
     # Get mapping from CIK to class IDs
-    >>> cik_to_class_ids = mapper.cik_to_class_ids
+    >>> mapper.cik_to_class_ids
     {'0000002110': {'C000024958', 'C000024969', 'C000024957', ...}, '0000002646': {'C000023849', 'C000074893', 'C000028785', ...}, '0000002663': {'C000023718', 'C000028786', 'C000076529', ...}, ...}
 
     # Get mapping from class ID to CIK
-    >>> class_id_to_cik = mapper.class_id_to_cik
+    >>> mapper.class_id_to_cik
     {'C000024954': '0000002110', 'C000024956': '0000002110', 'C000024957': '0000002110', ...}
 
     # Get mapping from class ID to ticker
-    >>> class_id_to_ticker = mapper.class_id_to_ticker
+    >>> mapper.class_id_to_ticker
     {'C000024954': 'LACAX', 'C000024956': 'LIACX', 'C000024957': 'ACRNX', ...}
 
     # Save CIK, ticker, series ID, and class ID mappings to a CSV file

@@ -47,7 +47,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "alabaster"
 html_theme_options = {
-    "description": "Generate mappings between CIKs, tickers, and company names using Python",
+    "description": "Generate mappings between SEC identifiers using Python",
     "github_user": "jadchaar",
     "github_repo": "sec-cik-mapper",
     "github_banner": True,
