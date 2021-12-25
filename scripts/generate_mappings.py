@@ -1,3 +1,5 @@
+"""Fetch and transform mapping data from SEC."""
+
 import json
 import sys
 from pathlib import Path
