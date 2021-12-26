@@ -52,6 +52,6 @@ build-dist:
 
 upload-dist:
 	. venv/bin/activate; \
-	flit publish
+	flit publish --setup-py
 
 publish: test clean build-dist upload-dist clean

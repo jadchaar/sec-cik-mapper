@@ -37,9 +37,9 @@ Features
 - Generate up-to-date mappings from the SEC as native Python dictionaries
 - Mappings for both stocks and mutual funds
 - Mapping data exposed as a raw pandas dataframe for custom data processing and usage
-- Support for Python 3.6+
 - Full support for PEP 484-style type hints and the `mypy type checker <https://mypy.readthedocs.io/en/stable/>`_
 - `Auto-generated mappings <https://github.com/jadchaar/sec-cik-mapper/tree/main/auto_generated_mappings>`_, updated daily, available from GitHub for use outside of Python
+- Support for Python 3.6+
 
 Supported Mappings Identifiers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
