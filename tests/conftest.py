@@ -23,12 +23,12 @@ def mutual_fund_mapper() -> MutualFundMapper:
 
 @pytest.fixture(scope="session")
 def generated_mappings_path_stocks() -> Path:
-    return Path("auto_generated_mappings/stocks")
+    return Path("mappings/stocks")
 
 
 @pytest.fixture(scope="session")
 def generated_mappings_path_mutual_funds() -> Path:
-    return Path("auto_generated_mappings/mutual_funds")
+    return Path("mappings/mutual_funds")
 
 
 @pytest.fixture(scope="session")

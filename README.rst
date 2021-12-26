@@ -38,27 +38,51 @@ Features
 - Mappings for both stocks and mutual funds
 - Mapping data exposed as a raw pandas dataframe for custom data processing and usage
 - Full support for PEP 484-style type hints and the `mypy type checker <https://mypy.readthedocs.io/en/stable/>`_
-- `Auto-generated mappings <https://github.com/jadchaar/sec-cik-mapper/tree/main/auto_generated_mappings>`_, updated daily, available from GitHub for use outside of Python
+- `Pre-generated mappings <https://github.com/jadchaar/sec-cik-mapper/tree/main/mappings>`_, updated daily, available from GitHub and jsDelivr for use outside of Python
 - Support for Python 3.6+
 
-Supported Mappings Identifiers
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Supported Mappings
+^^^^^^^^^^^^^^^^^^
 
-Mappings can be formed between the following SEC identifiers and company metadata:
+Mappings can be formed between the following SEC identifiers and metadata:
 
-**Stocks**
-
-- CIK
-- Ticker
-- Exchange
-- Company Name
-
-**Mutual Funds**
-
-- CIK
-- Ticker
-- Series ID
-- Class ID
++-----------+-----------------+-----------------+----------------------+
+|    Key    |      Value      | ``StockMapper`` | ``MutualFundMapper`` |
++===========+=================+=================+======================+
+| CIK       | Set(Tickers)    | ✅              | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| CIK       | Company Name    | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| CIK       | Exchange        | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| Exchange  | Set(CIKs)       | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| Exchange  | Set(Tickers)    | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| Ticker    | CIK             | ✅              | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Ticker    | Company Name    | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| Ticker    | Exchange        | ✅              |                      |
++-----------+-----------------+-----------------+----------------------+
+| CIK       | Set(Series IDs) |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| CIK       | Set(Class IDs)  |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Class ID  | CIK             |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Class ID  | Ticker          |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Series ID | CIK             |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Series ID | Set(Class IDs)  |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Series ID | Set(Tickers)    |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Ticker    | Class ID        |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
+| Ticker    | Series ID       |                 | ✅                   |
++-----------+-----------------+-----------------+----------------------+
 
 Quick Start
 -----------
@@ -213,13 +237,13 @@ Basic Usage
 
     [29242 rows x 4 columns]
 
-Auto-generated Mappings
------------------------
+Pre-generated Mappings
+----------------------
 
-Auto-generated mappings are also available for download and use outside of Python (e.g. manually or via automated
+Pre-generated mappings are also available for download and use outside of Python (e.g. manually or via automated
 scripts/curl requests). These mappings are updated daily via a `fully automated daily CRON job <https://github.com/jadchaar/sec-cik-mapper/actions/workflows/update_mappings_daily_cron_job.yml>`_,
 which fetches, transforms, validates, and uploads the latest mapping data from the SEC to GitHub
-(save location: `github.com/jadchaar/sec-cik-mapper/auto_generated_mappings <https://github.com/jadchaar/sec-cik-mapper/tree/main/auto_generated_mappings>`_).
+(save location: `github.com/jadchaar/sec-cik-mapper/mappings <https://github.com/jadchaar/sec-cik-mapper/tree/main/mappings>`_).
 These mappings are available for download and usage from both GitHub and the `jsDelivr CDN <https://www.jsdelivr.com>`_.
 
 Example Usage
@@ -227,57 +251,71 @@ Example Usage
 
 Example `curl <https://curl.se/>`_ commands, which download the specified mapping files and saves them to the current working directory:
 
-**GitHub**
+**Stocks**
+
+Hosted via GitHub:
 
 .. code-block:: console
 
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/mappings.csv -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/cik_to_exchange.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/cik_to_tickers.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/ticker_to_exchange.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/cik_to_company_name.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/ticker_to_cik.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/ticker_to_company_name.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/exchange_to_tickers.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/stocks/exchange_to_ciks.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/ticker_to_class_id.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/series_id_to_class_ids.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/mappings.csv -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/cik_to_class_ids.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/cik_to_series_ids.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/series_id_to_cik.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/ticker_to_series_id.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/cik_to_tickers.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/class_id_to_cik.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/series_id_to_tickers.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/class_id_to_ticker.json -O
-        $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings/mutual_funds/ticker_to_cik.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/mappings.csv -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/cik_to_exchange.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/cik_to_tickers.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/ticker_to_exchange.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/cik_to_company_name.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/ticker_to_cik.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/ticker_to_company_name.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/exchange_to_tickers.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/stocks/exchange_to_ciks.json -O
 
-**jsDelivr CDN**
+Hosted via jsDelivr CDN:
 
 .. code-block:: console
 
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/mappings.csv -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/cik_to_exchange.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/cik_to_tickers.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/ticker_to_exchange.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/cik_to_company_name.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/ticker_to_cik.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/ticker_to_company_name.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/exchange_to_tickers.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/stocks/exchange_to_ciks.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/ticker_to_class_id.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/series_id_to_class_ids.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/mappings.csv -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/cik_to_class_ids.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/cik_to_series_ids.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/series_id_to_cik.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/ticker_to_series_id.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/cik_to_tickers.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/class_id_to_cik.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/series_id_to_tickers.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/class_id_to_ticker.json -O
-        $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings/mutual_funds/ticker_to_cik.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/mappings.csv -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/cik_to_exchange.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/cik_to_tickers.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/ticker_to_exchange.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/cik_to_company_name.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/ticker_to_cik.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/ticker_to_company_name.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/exchange_to_tickers.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/stocks/exchange_to_ciks.json -O
+
+**Mutual Funds**
+
+Hosted via GitHub:
+
+.. code-block:: console
+
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/ticker_to_class_id.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/series_id_to_class_ids.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/mappings.csv -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/cik_to_class_ids.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/cik_to_series_ids.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/series_id_to_cik.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/ticker_to_series_id.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/cik_to_tickers.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/class_id_to_cik.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/series_id_to_tickers.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/class_id_to_ticker.json -O
+    $ curl https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings/mutual_funds/ticker_to_cik.json -O
+
+Hosted via jsDelivr CDN:
+
+.. code-block:: console
+
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/ticker_to_class_id.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/series_id_to_class_ids.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/mappings.csv -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/cik_to_class_ids.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/cik_to_series_ids.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/series_id_to_cik.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/ticker_to_series_id.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/cik_to_tickers.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/class_id_to_cik.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/series_id_to_tickers.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/class_id_to_ticker.json -O
+    $ curl https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings/mutual_funds/ticker_to_cik.json -O
 
 Contributing
 ------------

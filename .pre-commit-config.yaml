@@ -13,7 +13,7 @@ repos:
       - id: check-docstring-first
       - id: check-merge-conflict
       - id: end-of-file-fixer
-        exclude: ^auto_generated_mappings/
+        exclude: ^mappings/
       - id: check-yaml
       - id: debug-statements
       - id: requirements-txt-fixer

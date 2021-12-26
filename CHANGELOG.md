@@ -10,7 +10,7 @@
 - Added full support for PEP 484-style type hints.
 - Added `raw_dataframe` property to both mappers that exposes the underlying pandas dataframe for additional extensibility.
 - Added [examples to GitHub repository](https://github.com/jadchaar/sec-cik-mapper/tree/main/examples) to improve first-time usage.
-- Updated naming of JSON and CSV mappings and added support for a number of new mappings in `auto_generated_mappings`.
+- Updated naming of JSON and CSV mappings and added support for a number of new auto-generated mappings.
 - Improved documentation in README on how to download the auto-generated mappings via curl from GitHub or jsDelivr.
 
 ### Internal

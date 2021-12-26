@@ -53,7 +53,7 @@ Issues = "https://github.com/jadchaar/cik-mapper/issues"
 
 [tool.flit.sdist]
 exclude = [
-    "auto_generated_mappings/",
+    "mappings/",
     "scripts/",
     "examples/",
 ]

@@ -16,7 +16,7 @@ from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
 class BaseMapper:
     """A :class:`BaseMapper` object."""
 
-    headers: ClassVar[Dict[str, str]] = {
+    _headers: ClassVar[Dict[str, str]] = {
         "User-Agent": f"{int(time.time())} {int(time.time())}@gmail.com",
         "Accept-Encoding": "gzip, deflate",
         "Host": "www.sec.gov",
@@ -48,7 +48,7 @@ class BaseMapper:
 
     def _get_mapping_metadata_from_sec(self) -> pd.DataFrame:
         """Get company mapping metadata from SEC."""
-        resp = requests.get(self.retriever.source_url, headers=BaseMapper.headers)
+        resp = requests.get(self.retriever.source_url, headers=BaseMapper._headers)
         resp.raise_for_status()
         data = resp.json()
 

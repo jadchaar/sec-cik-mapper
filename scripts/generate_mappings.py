@@ -8,7 +8,7 @@ sys.path.append("..")
 
 from sec_cik_mapper import MutualFundMapper, StockMapper  # noqa: E402
 
-auto_generated_mappings_path = Path("../auto_generated_mappings")
+mappings_path = Path("../mappings")
 
 
 class ComplexEncoder(json.JSONEncoder):
@@ -55,13 +55,13 @@ def execute_and_save_to_disk(save_path, mapper):
 
 
 def generate_stock_mappings():
-    save_path = auto_generated_mappings_path / "stocks"
+    save_path = mappings_path / "stocks"
     mapper = StockMapper()
     execute_and_save_to_disk(save_path, mapper)
 
 
 def generate_mutual_fund_mappings():
-    save_path = auto_generated_mappings_path / "mutual_funds"
+    save_path = mappings_path / "mutual_funds"
     mapper = MutualFundMapper()
     execute_and_save_to_disk(save_path, mapper)
 

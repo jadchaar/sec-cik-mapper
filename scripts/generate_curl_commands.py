@@ -6,17 +6,17 @@ from pathlib import Path
 
 import requests
 
-GENERATED_MAPPINGS_PATH = Path("../auto_generated_mappings")
+GENERATED_MAPPINGS_PATH = Path("../mappings")
 
 if not GENERATED_MAPPINGS_PATH.exists():
     print(f"Folder does not exist: {GENERATED_MAPPINGS_PATH.resolve()}")
     print("Ensure that your current working directory is the scripts folder.")
     sys.exit(1)
 
-BASE_URL_GH_RAW = "https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/auto_generated_mappings"  # noqa: B950
-BASE_URL_JSDELIVR = (
-    "https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/auto_generated_mappings"
+BASE_URL_GH_RAW = (
+    "https://raw.githubusercontent.com/jadchaar/sec-cik-mapper/main/mappings"
 )
+BASE_URL_JSDELIVR = "https://cdn.jsdelivr.net/gh/jadchaar/sec-cik-mapper@main/mappings"
 CURL_TEMPLATE = "curl {0} -O"
 
 RST_TEMPLATE = """
