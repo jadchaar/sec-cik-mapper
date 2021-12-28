@@ -28,12 +28,12 @@ release = about["__version__"]
 
 # -- General configuration ---------------------------------------------------
 
-extensions = ["sphinx.ext.autodoc", "sphinx_autodoc_typehints"]
+extensions = ["sphinx.ext.autodoc", "sphinx_autodoc_typehints", "m2r2"]
 
 autodoc_member_order = "groupwise"
 
 master_doc = "index"
-source_suffix = {".rst": "restructuredtext"}
+source_suffix = [".rst", ".md"]
 
 html_sidebars = {
     "**": ["about.html", "localtoc.html", "relations.html", "searchbox.html"]
@@ -41,7 +41,7 @@ html_sidebars = {
 
 templates_path = ["_templates"]
 
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "README.md"]
 
 # -- Options for HTML output -------------------------------------------------
 

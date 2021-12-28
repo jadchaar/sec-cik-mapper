@@ -1,7 +1,9 @@
 .. toctree::
     :maxdepth: 2
+    :hidden:
 
-.. include:: ../README.rst
+.. Use m2r2 to include and render Markdown file
+.. mdinclude:: README.md
 
 API Guide
 ---------
