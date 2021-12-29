@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "sec_cik_mapper"
+name = "sec-cik-mapper"
 authors = [{name = "Jad Chaar", email = "jad.chaar@gmail.com"}]
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -57,3 +57,6 @@ exclude = [
     "scripts/",
     "examples/",
 ]
+
+[tool.flit.module]
+name = "sec_cik_mapper"
