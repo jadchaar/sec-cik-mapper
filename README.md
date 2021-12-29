@@ -78,20 +78,20 @@ $ pip install -U sec-cik-mapper
 
 # Get raw pandas dataframe
 >>> mapper.raw_dataframe
-                CIK  Ticker                                  Name Exchange
-0      0000320193    AAPL                            Apple Inc.   Nasdaq
-1      0000789019    MSFT                        Microsoft Corp   Nasdaq
-2      0001652044    GOOG                         Alphabet Inc.   Nasdaq
-3      0001018724    AMZN                        Amazon Com Inc   Nasdaq
-4      0001318605    TSLA                           Tesla, Inc.   Nasdaq
-...           ...     ...                                   ...      ...
-13184  0001866816   OLITU             Omnilit Acquisition Corp.   Nasdaq
-13185  0001870778   OHAAU               Opy Acquisition Corp. I   Nasdaq
-13186  0001873324   PEPLW    Pepperlime Health Acquisition Corp   Nasdaq
-13187  0001877557  WEL-UN  Integrated Wellness Acquisition Corp     NYSE
-13188  0001877787  ZGN-WT   Ermenegildo Zegna Holditalia S.P.A.     NYSE
+              CIK Ticker                               Name Exchange
+0      0000001750    AIR                           Aar Corp     NYSE
+1      0000001800    ABT                Abbott Laboratories     NYSE
+2      0000001961   WDDD                         Worlds Inc      OTC
+3      0000002098    ACU                   Acme United Corp     NYSE
+4      0000002178     AE     Adams Resources & Energy, Inc.     NYSE
+...           ...    ...                                ...      ...
+13167  0001894057   PPYA  Papaya Growth Opportunity Corp. I
+13168  0001894370   HMAC   Hainan Manaslu Acquisition Corp.
+13169  0001894630   GHIX            Gores Holdings Ix, Inc.
+13170  0001897941   GTEN             Gores Holdings X, Inc.
+13171  0001898416   ALVO       Alvotech Lux Holdings S.A.S.
 
-[13189 rows x 4 columns]
+[13172 rows x 4 columns]
 ```
 
 #### Mutual Funds
@@ -153,20 +153,20 @@ $ pip install -U sec-cik-mapper
 
 # Get raw pandas dataframe
 >>> mapper.raw_dataframe
-                CIK Ticker   Series ID    Class ID
-0      0000002110  LACAX  S000009184  C000024954
-1      0000002110  LIACX  S000009184  C000024956
+              CIK Ticker   Series ID    Class ID
+0      0000002110  ACFFX  S000009188  C000024973
+1      0000002110  ACINX  S000009185  C000024961
 2      0000002110  ACRNX  S000009184  C000024957
-3      0000002110  CEARX  S000009184  C000122735
-4      0000002110  CRBRX  S000009184  C000122736
+3      0000002110  ACTWX  S000009187  C000024969
+4      0000002110  AUSAX  S000009186  C000024965
 ...           ...    ...         ...         ...
-29237  0001860434   SIHY  S000072555  C000228888
-29238  0001860434   SIFI  S000072556  C000228889
-29239  0001860434   INNO  S000073580  C000230585
-29240  0001877493    BTF  S000074058  C000231452
-29241  0001877493    VBB  S000075054  C000233857
+29236  0001860434   INNO  S000073580  C000230585
+29237  0001860434   SIFI  S000072556  C000228889
+29238  0001860434   SIHY  S000072555  C000228888
+29239  0001877493    BTF  S000074058  C000231452
+29240  0001877493    VBB  S000075054  C000233857
 
-[29242 rows x 4 columns]
+[29241 rows x 4 columns]
 ```
 
 ## Supported Mappings
