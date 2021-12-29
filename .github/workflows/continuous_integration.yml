@@ -34,20 +34,19 @@ jobs:
         with:
           file: coverage.xml
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: |
-          pip install -U pip wheel
-          pip install setuptools==60.1.0
-          pip install -U tox
-      - name: Lint code
-        run: tox -e lint -- --show-diff-on-failure
-      - name: Lint docs
-        run: tox -e docs
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up Python 3.10
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: "3.10"
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install -U pip setuptools wheel
+  #         pip install -U tox
+  #     - name: Lint code
+  #       run: tox -e lint -- --show-diff-on-failure
+  #     - name: Lint docs
+  #       run: tox -e docs
