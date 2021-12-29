@@ -19,31 +19,6 @@
 - [Pre-generated mappings](https://github.com/jadchaar/sec-cik-mapper/tree/main/mappings), updated daily, available from GitHub and jsDelivr for use outside of Python
 - Support for Python 3.6+
 
-## Supported Mappings
-
-Mappings can be formed between the following SEC identifiers and metadata:
-
-
-|     Key     |       Value       | `StockMapper` | `MutualFundMapper` |
-| :---------: | :---------------: | :-----------: | :----------------: |
-|    `CIK`    |  `Set(Tickers)`   |       ✅       |         ✅          |
-|    `CIK`    |  `Company Name`   |       ✅       |                    |
-|    `CIK`    |    `Exchange`     |       ✅       |                    |
-| `Exchange`  |    `Set(CIKs)`    |       ✅       |                    |
-| `Exchange`  |  `Set(Tickers)`   |       ✅       |                    |
-|  `Ticker`   |       `CIK`       |       ✅       |         ✅          |
-|  `Ticker`   |  `Company Name`   |       ✅       |                    |
-|  `Ticker`   |    `Exchange`     |       ✅       |                    |
-|    `CIK`    | `Set(Series IDs)` |               |         ✅          |
-|    `CIK`    | `Set(Class IDs)`  |               |         ✅          |
-| `Class ID`  |       `CIK`       |               |         ✅          |
-| `Class ID`  |     `Ticker`      |               |         ✅          |
-| `Series ID` |       `CIK`       |               |         ✅          |
-| `Series ID` | `Set(Class IDs)`  |               |         ✅          |
-| `Series ID` |  `Set(Tickers)`   |               |         ✅          |
-|  `Ticker`   |    `Class ID`     |               |         ✅          |
-|  `Ticker`   |    `Series ID`    |               |         ✅          |
-
 ## Quick Start
 
 ### Installation
@@ -193,6 +168,30 @@ $ pip install -U sec-cik-mapper
 
 [29242 rows x 4 columns]
 ```
+
+## Supported Mappings
+
+Mappings can be formed between the following SEC identifiers and metadata:
+
+|     Key     |       Value       | `StockMapper` | `MutualFundMapper` |
+| :---------: | :---------------: | :-----------: | :----------------: |
+|    `CIK`    |  `Set(Tickers)`   |       ✅       |         ✅          |
+|    `CIK`    |  `Company Name`   |       ✅       |                    |
+|    `CIK`    |    `Exchange`     |       ✅       |                    |
+| `Exchange`  |    `Set(CIKs)`    |       ✅       |                    |
+| `Exchange`  |  `Set(Tickers)`   |       ✅       |                    |
+|  `Ticker`   |       `CIK`       |       ✅       |         ✅          |
+|  `Ticker`   |  `Company Name`   |       ✅       |                    |
+|  `Ticker`   |    `Exchange`     |       ✅       |                    |
+|    `CIK`    | `Set(Series IDs)` |               |         ✅          |
+|    `CIK`    | `Set(Class IDs)`  |               |         ✅          |
+| `Class ID`  |       `CIK`       |               |         ✅          |
+| `Class ID`  |     `Ticker`      |               |         ✅          |
+| `Series ID` |       `CIK`       |               |         ✅          |
+| `Series ID` | `Set(Class IDs)`  |               |         ✅          |
+| `Series ID` |  `Set(Tickers)`   |               |         ✅          |
+|  `Ticker`   |    `Class ID`     |               |         ✅          |
+|  `Ticker`   |    `Series ID`    |               |         ✅          |
 
 ## Pre-generated Mappings
 
