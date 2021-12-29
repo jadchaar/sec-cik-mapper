@@ -22,12 +22,14 @@ test:
 lint:
 	. venv/bin/activate; pre-commit run --all-files --show-diff-on-failure
 
-docs:
+clean-docs:
 	rm -rf docs/_build
+
+docs: clean-docs
 	. venv/bin/activate; cd docs; make html
 
-preview-docs: docs
-	python3 -m http.server --directory docs/_build/html
+live-docs: clean-docs
+	. venv/bin/activate; sphinx-autobuild docs docs/_build/html
 
 deep-clean-dry-run:
 	git clean -xdn
