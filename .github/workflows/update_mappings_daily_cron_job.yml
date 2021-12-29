@@ -8,6 +8,11 @@ jobs:
   update-mappings:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
       - uses: actions/checkout@v2
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
@@ -16,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip setuptools wheel
-          pip install -U tox
+          pip install -U tox tox-gh-actions
       - name: Generate mappings
         run: tox -e generate-mappings
       - name: Validate generated mappings

@@ -10,7 +10,7 @@ if [[ $NUM_CHANGES -gt 0 ]]; then
     git config --global user.email 'jadchaar@users.noreply.github.com'
     git add $MAPPINGS_DIR
     git commit -m "$CURRENT_DATE automated CRON job - update mappings"
-    git push
+    git push --force
 else
-    echo "No mapping changes detected. Skipping upload..."
+    echo "No mapping changes detected. Skipping push to GitHub..."
 fi

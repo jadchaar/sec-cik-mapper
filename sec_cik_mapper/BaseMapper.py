@@ -47,7 +47,9 @@ class BaseMapper:
         return cast(FieldIndices, field_indices)
 
     def _get_mapping_metadata_from_sec(self) -> pd.DataFrame:
-        """Get company mapping metadata from SEC."""
+        """Get company mapping metadata from the SEC as a pandas dataframe,
+        sorted by CIK and ticker.
+        """
         resp = requests.get(self.retriever.source_url, headers=BaseMapper._headers)
         resp.raise_for_status()
         data = resp.json()
@@ -63,7 +65,9 @@ class BaseMapper:
                 self.retriever.transform(field_indices, cd),
             )
 
-        return pd.DataFrame(transformed_data)
+        df = pd.DataFrame(transformed_data)
+        df.sort_values(by=["CIK", "Ticker"], inplace=True, ignore_index=True)
+        return df
 
     def _form_kv_set_mapping(self, keys: pd.Series, values: pd.Series) -> KeyToValueSet:
         """Form mapping from key to list of values, ignoring blank keys and values.
