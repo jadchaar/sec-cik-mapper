@@ -1,6 +1,7 @@
 name: update-mappings-daily-cron-job
 
 on:
+  workflow_dispatch: # run manually via gh CLI
   schedule: # run daily at 8am
     - cron: "0 8 * * *"
 
