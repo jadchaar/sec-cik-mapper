@@ -7,7 +7,7 @@ on:
       - '*.*.*'
 
 jobs:
-  update-mappings:
+  release-to-pypi:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/cache@v2
@@ -25,6 +25,11 @@ jobs:
           pip install -U tox
       - name: Publish package to PyPI
         env:
+          FLIT_INDEX_URL: https://upload.pypi.org/legacy/
           FLIT_USERNAME: jadchaar
           FLIT_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: tox -e publish
+        run:
+          echo $FLIT_INDEX_URL
+          echo $FLIT_USERNAME
+          echo $FLIT_PASSWORD
+          tox -e publish
