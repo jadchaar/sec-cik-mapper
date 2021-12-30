@@ -1,6 +1,6 @@
 .PHONY: auto test docs clean
 
-auto: build39
+auto: build310
 
 build36: PYTHON_VER = python3.6
 build37: PYTHON_VER = python3.7
@@ -12,24 +12,31 @@ build36 build37 build38 build39 build310: clean
 	$(PYTHON_VER) -m venv venv
 	. venv/bin/activate; \
 	pip install -U pip setuptools wheel; \
-	pip install -r requirements.txt; \
+	pip install -r requirements/requirements.txt; \
+	pip install -r requirements/requirements-docs.txt; \
+	pip install -r requirements/requirements-tests.txt; \
 	pre-commit install
 
 test:
 	rm -f .coverage coverage.xml
-	. venv/bin/activate; pytest
+	. venv/bin/activate; \
+	pytest
 
 lint:
-	. venv/bin/activate; pre-commit run --all-files --show-diff-on-failure
+	. venv/bin/activate; \
+	pre-commit run --all-files --show-diff-on-failure
 
 clean-docs:
 	rm -rf docs/_build
 
 docs: clean-docs
-	. venv/bin/activate; cd docs; make html
+	. venv/bin/activate; \
+	cd docs; \
+	make html
 
 live-docs: clean-docs
-	. venv/bin/activate; sphinx-autobuild docs docs/_build/html
+	. venv/bin/activate; \
+	sphinx-autobuild docs docs/_build/html
 
 deep-clean-dry-run:
 	git clean -xdn
@@ -52,8 +59,7 @@ build-dist:
 	pip install -U flit; \
 	flit build --setup-py
 
-upload-dist:
+publish: test clean
 	. venv/bin/activate; \
+	pip install -U flit; \
 	flit publish --setup-py
-
-publish: test clean build-dist upload-dist clean

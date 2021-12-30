@@ -2,7 +2,7 @@
     :maxdepth: 2
 
 .. Use m2r2 to include and render Markdown file
-.. mdinclude:: README.md
+.. mdinclude:: ../README.md
 
 API Guide
 ---------

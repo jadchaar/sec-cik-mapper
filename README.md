@@ -2,11 +2,15 @@
 
 [![Tests](https://github.com/jadchaar/sec-cik-mapper/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/jadchaar/sec-cik-mapper/actions/workflows/continuous_integration.yml)
 [![Update Mappings Daily CRON Job](https://github.com/jadchaar/cik-mapper/actions/workflows/update_mappings_daily_cron_job.yml/badge.svg?event=schedule)](https://github.com/jadchaar/sec-cik-mapper/actions/workflows/update_mappings_daily_cron_job.yml)
+[![Documentation Status](https://readthedocs.org/projects/sec-cik-mapper/badge/?version=latest)](https://sec-cik-mapper.readthedocs.io/en/latest/?badge=latest)
 [![Coverage](https://codecov.io/gh/jadchaar/sec-cik-mapper/branch/main/graph/badge.svg)](https://pypi.org/project/sec_cik_mapper/)
+
 [![PyPI Version](https://img.shields.io/pypi/v/sec-cik-mapper.svg)](https://pypi.org/project/sec_cik_mapper/)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/sec-cik-mapper.svg)](https://pypi.org/project/sec_cik_mapper/)
 [![License](https://img.shields.io/pypi/l/sec-cik-mapper.svg)](https://pypi.org/project/sec_cik_mapper/)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
+
+-----
 
 **sec-cik-mapper** is a Python package for generating mappings between stock and mutual fund identifier data provided by the SEC.
 

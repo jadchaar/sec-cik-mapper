@@ -2,6 +2,8 @@
 
 ## 2.0.1 - 12/29/21
 
+### Changed
+
 - Moved README content from `README.rst` to `README.md` for improved table formatting support.
 - Raw pandas dataframe is now sorted on CIK and ticker to produce more consistent output.
 

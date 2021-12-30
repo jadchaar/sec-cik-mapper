@@ -1,8 +1,9 @@
 name: tests
 
 on:
+  workflow_dispatch: # run manually
   pull_request: # run on all pull requests
-  push: # run only on pushes to main
+  push: # run on pushes to main
     branches:
       - main
   schedule: # run monthly
@@ -31,8 +32,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: ${{ runner.os }}-pip-
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies

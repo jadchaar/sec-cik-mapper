@@ -1,9 +1,10 @@
-name: update-mappings-daily-cron-job
+name: release
 
 on:
   workflow_dispatch: # run manually
-  schedule: # run daily at 8am
-    - cron: "0 8 * * *"
+  push: # run on matching tags
+    tags:
+      - '*.*.*'
 
 jobs:
   update-mappings:
@@ -21,10 +22,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U pip setuptools wheel
-          pip install -U tox tox-gh-actions
-      - name: Generate mappings
-        run: tox -e generate-mappings
-      - name: Validate generated mappings
-        run: tox
-      - name: Commit and push mappings
-        run: bash scripts/upload_mappings.sh
+          pip install -U tox
+      - name: Publish package to PyPI
+        env:
+          FLIT_USERNAME: jadchaar
+          FLIT_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: tox -e publish
