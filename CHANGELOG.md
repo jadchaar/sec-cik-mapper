@@ -1,6 +1,14 @@
 # Changelog
 
-## 2.0.1 - 12/29/21
+## 2.0.2 - 12/29/21
+
+### Internal
+
+- PyPI releases are now fully automated via a GitHub actions workflow that is triggered on every new git tag.
+- Cleaned up Makefile, requirements.txt file and tox.ini configurations for faster and cleaner builds.
+- Broke up the `requirements.txt` file into 3 different files under the `requirements/` folder to separate runtime, testing, and documentation dependencies.
+
+## 2.0.1 - 12/28/21
 
 ### Changed
 
