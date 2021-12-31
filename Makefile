@@ -12,9 +12,8 @@ build36 build37 build38 build39 build310: clean
 	$(PYTHON_VER) -m venv venv
 	. venv/bin/activate; \
 	pip install -U pip setuptools wheel; \
-	pip install -r requirements/requirements.txt; \
-	pip install -r requirements/requirements-docs.txt; \
 	pip install -r requirements/requirements-tests.txt; \
+	pip install -r requirements/requirements-docs.txt; \
 	pre-commit install
 
 test:
@@ -47,19 +46,19 @@ deep-clean:
 clean-env:
 	rm -rf venv .tox
 
-clean: clean-dist
+clean: clean-env clean-dist clean-docs
 	rm -rf .pytest_cache ./**/__pycache__ .mypy_cache
 	rm -f .coverage coverage.xml ./**/*.pyc
 
 clean-dist:
 	rm -rf dist build *.egg *.eggs *.egg-info
 
-build-dist:
+build-dist: clean-dist
 	. venv/bin/activate; \
 	pip install -U flit; \
 	flit build --setup-py
 
-publish: test clean
+publish: test clean-dist
 	. venv/bin/activate; \
 	pip install -U flit; \
 	flit publish --setup-py

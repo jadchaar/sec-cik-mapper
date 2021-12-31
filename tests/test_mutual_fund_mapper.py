@@ -37,7 +37,8 @@ def test_cik_to_tickers(
     mutual_fund_mapper: MutualFundMapper, vtsax_mutual_fund: Dict[str, str]
 ):
     cik_to_tickers = mutual_fund_mapper.cik_to_tickers
-    assert len(cik_to_tickers) == mutual_fund_mapper.raw_dataframe.CIK.nunique()
+    df = mutual_fund_mapper.raw_dataframe
+    assert len(cik_to_tickers) == df[df.Ticker != ""].CIK.nunique()
 
     # Deal with CIKs mapping to multiple tickers
     num_tickers = 0
