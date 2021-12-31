@@ -23,7 +23,7 @@ test:
 
 lint:
 	. venv/bin/activate; \
-	pre-commit run --all-files --show-diff-on-failure
+	pre-commit run --all-files
 
 clean-docs:
 	rm -rf docs/_build
