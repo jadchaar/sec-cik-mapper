@@ -10,7 +10,8 @@ import pandas as pd
 import requests
 
 from .retrievers import MutualFundRetriever, StockRetriever
-from .types import CompanyData, FieldIndices, Fields, KeyToValueSet, cache
+from .types import CompanyData, FieldIndices, Fields, KeyToValueSet
+from .utils import with_cache
 
 
 class BaseMapper:
@@ -87,7 +88,7 @@ class BaseMapper:
         return {k: v for k, v in zip(keys, values) if k and v}
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def cik_to_tickers(self) -> KeyToValueSet:
         """Get CIK to tickers mapping.
 
@@ -106,7 +107,7 @@ class BaseMapper:
         return self._form_kv_set_mapping(cik_col, ticker_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def ticker_to_cik(self) -> Dict[str, str]:
         """Get ticker to CIK mapping.
 
@@ -125,7 +126,6 @@ class BaseMapper:
         return self._form_kv_mapping(ticker_col, cik_col)
 
     @property  # type: ignore
-    @cache
     def raw_dataframe(self) -> pd.DataFrame:
         """Get raw pandas dataframe.
 

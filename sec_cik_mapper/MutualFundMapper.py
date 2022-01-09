@@ -5,7 +5,8 @@ from typing import ClassVar, Dict
 
 from .BaseMapper import BaseMapper
 from .retrievers import MutualFundRetriever
-from .types import KeyToValueSet, cache
+from .types import KeyToValueSet
+from .utils import with_cache
 
 
 class MutualFundMapper(BaseMapper):
@@ -24,7 +25,7 @@ class MutualFundMapper(BaseMapper):
         super().__init__(MutualFundMapper._retriever)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def cik_to_series_ids(self) -> KeyToValueSet:
         """Get CIK to series ID mapping.
 
@@ -40,7 +41,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_set_mapping(cik_col, series_id_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def ticker_to_series_id(self) -> Dict[str, str]:
         """Get ticker to series ID mapping.
 
@@ -56,7 +57,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_mapping(ticker_col, series_id_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def series_id_to_cik(self) -> Dict[str, str]:
         """Get series ID to CIK mapping.
 
@@ -72,7 +73,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_mapping(series_id_col, cik_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def series_id_to_tickers(self) -> KeyToValueSet:
         """Get series ID to tickers mapping.
 
@@ -88,7 +89,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_set_mapping(series_id_col, ticker_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def series_id_to_class_ids(self) -> KeyToValueSet:
         """Get series ID to class IDs mapping.
 
@@ -104,7 +105,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_set_mapping(series_id_col, class_id_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def ticker_to_class_id(self) -> Dict[str, str]:
         """Get ticker to class ID mapping.
 
@@ -120,7 +121,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_mapping(ticker_col, class_id_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def cik_to_class_ids(self) -> KeyToValueSet:
         """Get CIK to class IDs mapping.
 
@@ -136,7 +137,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_set_mapping(cik_col, class_id_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def class_id_to_cik(self) -> Dict[str, str]:
         """Get class ID to CIK mapping.
 
@@ -152,7 +153,7 @@ class MutualFundMapper(BaseMapper):
         return self._form_kv_mapping(class_id_col, cik_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def class_id_to_ticker(self) -> Dict[str, str]:
         """Get class ID to ticker mapping.
 

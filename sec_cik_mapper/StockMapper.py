@@ -5,7 +5,8 @@ from typing import ClassVar, Dict
 
 from .BaseMapper import BaseMapper
 from .retrievers import StockRetriever
-from .types import KeyToValueSet, cache
+from .types import KeyToValueSet
+from .utils import with_cache
 
 
 class StockMapper(BaseMapper):
@@ -24,7 +25,7 @@ class StockMapper(BaseMapper):
         super().__init__(StockMapper._retriever)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def cik_to_company_name(self) -> Dict[str, str]:
         """Get CIK to company name mapping.
 
@@ -40,7 +41,7 @@ class StockMapper(BaseMapper):
         return self._form_kv_mapping(cik_col, company_name_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def ticker_to_company_name(self) -> Dict[str, str]:
         """Get ticker to company name mapping.
 
@@ -56,7 +57,7 @@ class StockMapper(BaseMapper):
         return self._form_kv_mapping(ticker_col, company_name_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def ticker_to_exchange(self) -> Dict[str, str]:
         """Get ticker to exchange mapping.
 
@@ -72,7 +73,7 @@ class StockMapper(BaseMapper):
         return self._form_kv_mapping(ticker_col, exchange_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def exchange_to_tickers(self) -> KeyToValueSet:
         """Get exchange to tickers mapping.
 
@@ -88,7 +89,7 @@ class StockMapper(BaseMapper):
         return self._form_kv_set_mapping(exchange_col, ticker_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def cik_to_exchange(self) -> Dict[str, str]:
         """Get CIK to exchange mapping.
 
@@ -104,7 +105,7 @@ class StockMapper(BaseMapper):
         return self._form_kv_mapping(cik_col, exchange_col)
 
     @property  # type: ignore
-    @cache
+    @with_cache
     def exchange_to_ciks(self) -> KeyToValueSet:
         """Get exchange to CIKs mapping.
 
