@@ -55,7 +55,8 @@ def test_cik_to_tickers(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
 
 def test_ticker_to_cik(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     ticker_to_cik = stock_mapper.ticker_to_cik
-    assert len(ticker_to_cik) == len(stock_mapper.raw_dataframe)
+    df = stock_mapper.raw_dataframe.Ticker
+    assert len(ticker_to_cik) == df[df != ""].nunique()
 
     ticker = apple_stock["ticker"]
     cik = apple_stock["cik"]
@@ -76,7 +77,8 @@ def test_cik_to_company_name(stock_mapper: StockMapper, apple_stock: Dict[str, s
 
 def test_ticker_to_company_name(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     ticker_to_company_name = stock_mapper.ticker_to_company_name
-    assert len(ticker_to_company_name) == len(stock_mapper.raw_dataframe)
+    df = stock_mapper.raw_dataframe.Ticker
+    assert len(ticker_to_company_name) == df[df != ""].nunique()
 
     ticker = apple_stock["ticker"]
     name = apple_stock["name"]
@@ -86,13 +88,11 @@ def test_ticker_to_company_name(stock_mapper: StockMapper, apple_stock: Dict[str
 
 def test_ticker_to_exchange(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     ticker_to_exchange = stock_mapper.ticker_to_exchange
-    ticker_series = stock_mapper.raw_dataframe["Ticker"]
-    exchange_series = stock_mapper.raw_dataframe["Exchange"]
-    num_blank = (
-        ticker_series[ticker_series == ""].count()
-        + exchange_series[exchange_series == ""].count()
+    df = stock_mapper.raw_dataframe
+    assert (
+        len(ticker_to_exchange)
+        == df[(df.Ticker != "") & (df.Exchange != "")].Ticker.nunique()
     )
-    assert len(ticker_to_exchange) == len(stock_mapper.raw_dataframe) - num_blank
 
     ticker = apple_stock["ticker"]
     exchange = apple_stock["exchange"]
@@ -103,9 +103,7 @@ def test_ticker_to_exchange(stock_mapper: StockMapper, apple_stock: Dict[str, st
 def test_exchange_to_tickers(stock_mapper: StockMapper, apple_stock: Dict[str, str]):
     exchange_to_tickers = stock_mapper.exchange_to_tickers
     exchange_series = stock_mapper.raw_dataframe["Exchange"]
-    assert len(exchange_to_tickers) == len(
-        exchange_series[exchange_series != ""].unique()
-    )
+    assert len(exchange_to_tickers) == exchange_series[exchange_series != ""].nunique()
 
     ticker = apple_stock["ticker"]
     exchange = apple_stock["exchange"]

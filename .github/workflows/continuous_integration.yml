@@ -26,12 +26,12 @@ jobs:
         - os: windows-latest
           path: ~\AppData\Local\pip\Cache
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
           path: ${{ matrix.path }}
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: ${{ runner.os }}-pip-
-      - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
@@ -49,6 +49,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/cache@v2
         with:
           path: ~/.cache/pip
@@ -59,7 +60,6 @@ jobs:
           path: ~/.cache/pre-commit
           key: ${{ runner.os }}-pre-commit-${{ hashFiles('**/.pre-commit-config.yaml') }}
           restore-keys: ${{ runner.os }}-pre-commit-
-      - uses: actions/checkout@v2
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
