@@ -21,6 +21,10 @@ test:
 	. venv/bin/activate; \
 	pytest
 
+fix-mappings-merge-conflicts:
+	git clean -xdfq mappings/**
+	tox -e generate-mappings
+
 lint:
 	. venv/bin/activate; \
 	pre-commit run --all-files
