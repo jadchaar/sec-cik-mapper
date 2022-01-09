@@ -5,7 +5,7 @@ from typing import ClassVar, Dict
 
 from .BaseMapper import BaseMapper
 from .retrievers import StockRetriever
-from .types import KeyToValueSet
+from .types import KeyToValueSet, cache
 
 
 class StockMapper(BaseMapper):
@@ -23,7 +23,8 @@ class StockMapper(BaseMapper):
         """Constructor for the :class:`StockMapper` class."""
         super().__init__(StockMapper._retriever)
 
-    @property
+    @property  # type: ignore
+    @cache
     def cik_to_company_name(self) -> Dict[str, str]:
         """Get CIK to company name mapping.
 
@@ -38,7 +39,8 @@ class StockMapper(BaseMapper):
         company_name_col = self.mapping_metadata["Name"]
         return self._form_kv_mapping(cik_col, company_name_col)
 
-    @property
+    @property  # type: ignore
+    @cache
     def ticker_to_company_name(self) -> Dict[str, str]:
         """Get ticker to company name mapping.
 
@@ -53,7 +55,8 @@ class StockMapper(BaseMapper):
         company_name_col = self.mapping_metadata["Name"]
         return self._form_kv_mapping(ticker_col, company_name_col)
 
-    @property
+    @property  # type: ignore
+    @cache
     def ticker_to_exchange(self) -> Dict[str, str]:
         """Get ticker to exchange mapping.
 
@@ -68,7 +71,8 @@ class StockMapper(BaseMapper):
         exchange_col = self.mapping_metadata["Exchange"]
         return self._form_kv_mapping(ticker_col, exchange_col)
 
-    @property
+    @property  # type: ignore
+    @cache
     def exchange_to_tickers(self) -> KeyToValueSet:
         """Get exchange to tickers mapping.
 
@@ -83,7 +87,8 @@ class StockMapper(BaseMapper):
         exchange_col = self.mapping_metadata["Exchange"]
         return self._form_kv_set_mapping(exchange_col, ticker_col)
 
-    @property
+    @property  # type: ignore
+    @cache
     def cik_to_exchange(self) -> Dict[str, str]:
         """Get CIK to exchange mapping.
 
@@ -98,7 +103,8 @@ class StockMapper(BaseMapper):
         exchange_col = self.mapping_metadata["Exchange"]
         return self._form_kv_mapping(cik_col, exchange_col)
 
-    @property
+    @property  # type: ignore
+    @cache
     def exchange_to_ciks(self) -> KeyToValueSet:
         """Get exchange to CIKs mapping.
 

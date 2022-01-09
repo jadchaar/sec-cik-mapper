@@ -21,7 +21,7 @@ exec(version, about)
 # -- Project information -----------------------------------------------------
 
 project = "SEC CIK Mapper 🗺"
-copyright = "2021, Jad Chaar"
+copyright = "2022, Jad Chaar"
 author = "Jad Chaar"
 
 release = about["__version__"]

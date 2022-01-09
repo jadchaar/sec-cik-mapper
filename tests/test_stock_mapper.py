@@ -144,3 +144,21 @@ def test_save_metadata_to_csv(stock_mapper: StockMapper, tmp_path: Path):
     assert tmp_csv_path.exists()
     df = pd.read_csv(tmp_csv_path)
     assert len(df) == len(stock_mapper.raw_dataframe)
+
+
+def test_caching(stock_mapper: StockMapper):
+    # Clear cache
+    StockMapper.ticker_to_cik.fget.cache_clear()  # type: ignore
+    n = 1000
+
+    for _ in range(n):
+        stock_mapper.ticker_to_cik
+
+    # Verify cache hits and misses
+    cache_info = StockMapper.ticker_to_cik.fget.cache_info()  # type: ignore
+
+    expected_misses = 1
+    assert cache_info.misses == expected_misses
+
+    expected_hits = n - expected_misses
+    assert cache_info.hits == expected_hits

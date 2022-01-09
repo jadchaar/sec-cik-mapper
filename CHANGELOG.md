@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0 - 1/9/22
+
+### New
+
+- Added an LRU cache to all StockMapper and MutualFundMapper properties. This should result in performance improvements on repeated calls to the mapper properties.
+
 ## 2.0.2 - 12/29/21
 
 ### Internal

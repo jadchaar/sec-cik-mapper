@@ -1,4 +1,5 @@
-from typing import Dict, List, Set, Union
+from functools import lru_cache
+from typing import Callable, Dict, List, Set, TypeVar, Union
 
 from typing_extensions import Literal, TypedDict
 
@@ -28,3 +29,9 @@ Fields = Union[StockFields, MutualFundFields]
 CompanyData = List[List[Union[int, str]]]
 
 KeyToValueSet = Dict[str, Set[str]]
+
+T = TypeVar("T")
+
+
+def cache(func: Callable[..., T]) -> T:
+    return lru_cache()(func)  # type: ignore

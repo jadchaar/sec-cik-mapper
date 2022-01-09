@@ -188,3 +188,21 @@ def test_class_id_to_ticker(
     ticker = vtsax_mutual_fund["ticker"]
     assert class_id in class_id_to_ticker
     assert class_id_to_ticker[class_id] == ticker
+
+
+def test_caching(mutual_fund_mapper: MutualFundMapper):
+    # Clear cache
+    MutualFundMapper.ticker_to_cik.fget.cache_clear()  # type: ignore
+    n = 1000
+
+    for _ in range(n):
+        mutual_fund_mapper.ticker_to_cik
+
+    # Verify cache hits and misses
+    cache_info = MutualFundMapper.ticker_to_cik.fget.cache_info()  # type: ignore
+
+    expected_misses = 1
+    assert cache_info.misses == expected_misses
+
+    expected_hits = n - expected_misses
+    assert cache_info.hits == expected_hits
